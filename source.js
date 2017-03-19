@@ -12927,6 +12927,7 @@ $jscomp.polyfill("Object.setPrototypeOf", function(p) {
                 this.fixedX = !!d.fixedX;
                 this.fixedY = !!d.fixedY;
                 this.massMultiplier = k.create();
+                this.massMultiplier = [0, 2];  // injected?
                 this.position = k.fromValues(0, 0);
                 d.position && k.copy(this.position, d.position);
                 this.interpolatedPosition = k.fromValues(0, 0);
@@ -15146,7 +15147,8 @@ $jscomp.polyfill("Object.setPrototypeOf", function(p) {
             return 1E3 / m
         },
         setMaxAllowedFPS: function(a) {
-            return "undefined" == typeof a && (a = 1 / 0), 0 === a ? this.stop() : m = 1E3 / a, this
+            // 1000 / 50 == 20 FPS (initial value, if `a` is not given)
+            return "undefined" == typeof a && (a = 50), 0 === a ? this.stop() : m = 1E3 / a, this
         },
         resetFrameDelta: function() {
             var a = l;
@@ -17905,8 +17907,8 @@ network.addSocket = function(p) {
     p.on("m", this.onMsg);
     p.on("n", this.onOtherPlayerName);
     p.on("c", this.onOtherPlayerNameChange);
-    p.on("kr", this.kickReply);
-    p.on("disconnect", this.disconnect);
+    p.on("kr", function() { console.log("Lol they tried to kick you"); });
+    p.on("disconnect", function() { console.log("Something tried to disconnect you"); });
     p.on("connect_error", function() {})
 };
 network.disconnect = function() {
@@ -17930,9 +17932,6 @@ network.onLockCheckPoint = function(p) {
 network.kick = function(p) {
     null != this.socket && this.socket.emit("k", p)
 };
-network.kickReply = function() {
-    alert("kick warning!, please do not TROLL")
-};
 network.onOtherPlayerNameChange = function(p) {
     p = p.split(",");
     g.isDefined(livePlayers[parseInt(index)]) && (livePlayers[parseInt(p[0])].gPlayer.nameText.text = p[1])
@@ -17947,7 +17946,8 @@ network.requestForBio = function(p) {
     this.socket.emit("b", p)
 };
 network.sendMyBio = function(p) {
-    this.socket.emit("d", p)
+    console.log("You aint getting nothing");
+    // this.socket.emit("d", p)
 };
 network.environmentData = function(p) {
     "" != p && (network.environmentDataArray[network.environmentDataArray.length] = p)
@@ -18431,37 +18431,37 @@ physics.createPlayerSpawn = function(p, b) {
     f.onGround = 0;
     f.velocityValue = 300;
     f.jumpValue = 800;
+    f.velocityValues = 900;
+    f.jumpValues = 1000;
     physics.patch(f);
-    f.jump = function() {
-        var a = this.shapes[0].width / 100 * 4,
-            b = [this.position[0] + this.shapes[0].width / 2 - a, this.position[1]],
-            e = [this.position[0] - this.shapes[0].width / 2 + a, this.position[1]],
-            a = this.position,
-            f = [e[0], e[1] - 1],
-            k = [e[0], e[1] - 1];
-        physics.setRayPosition(this.rayObject.ray, b, [b[0],
-            b[1] - 1
-        ]);
-        var l = physics.drawRayInWorld(this.world, this.rayObject.ray, this.rayObject.result),
-            b = l[0];
-        physics.setRayPosition(this.rayObject.ray, e, f);
-        l = physics.drawRayInWorld(this.world, this.rayObject.ray, this.rayObject.result);
-        e = l[0];
-        physics.setRayPosition(this.rayObject.ray, a, k);
-        l = physics.drawRayInWorld(this.world, this.rayObject.ray, this.rayObject.result);
-        a = l[0];
-        k = this.shapes[0].height / 2;
-        e = Math.abs(e - k);
-        a = Math.abs(a - k);
-        b = Math.abs(b - k);
-        if (0 <= e && .03 >= e || 0 <= b && .03 >= b || 0 <= a && .03 >= a) physics.velocity(p, this,
-            null, -this.jumpValue), jumpPointBuffer = [plyer.position[0], plyer.position[1]]
-    };
+    f.jump = function(){
+        var margin = (ply.shapes[0].width/100)*10;
+        var fromRight = [ply.position[0]+(ply.shapes[0].width/2)-margin, ply.position[1]];
+        var fromLeft = [ply.position[0]-(ply.shapes[0].width/2)+margin, ply.position[1]];
+        var toRight = [fromRight[0], fromRight[1]-12];
+        var toLeft = [fromLeft[0], fromLeft[1]-12];
+        var fromC = ply.position;
+        var toC = [fromLeft[0], fromLeft[1]-12];
+        physics.setRayPosition(ply.rayObject.ray, fromRight, toRight);
+        var disRight = physics.drawRayInWorld(physicsWorld, ply.rayObject.ray, ply.rayObject.result);
+        physics.setRayPosition(ply.rayObject.ray, fromLeft, toLeft);
+        var disLeft = physics.drawRayInWorld(physicsWorld, ply.rayObject.ray, ply.rayObject.result);
+        physics.setRayPosition(ply.rayObject.ray, fromC, toC);
+        var disC = physics.drawRayInWorld(physicsWorld, ply.rayObject.ray, ply.rayObject.result);
+        disLeft = Math.round(disLeft*100);
+        disC = Math.round(disC*100);
+        disRight = Math.round(disRight*100);
+        var neg  = Math.round((ply.shapes[0].height/2)*100);
+        disLeft = Math.abs(disLeft-neg);
+        disC = Math.abs(disC-neg);
+        disRight = Math.abs(disRight-neg);
+        physics.velocity(physicsWorld, this, null, -this.jumpValues);
+    }
     f.left = function() {
-        physics.velocity(p, this, -this.velocityValue, null)
+        physics.velocity(p, this, -this.velocityValues, null)
     };
     f.right = function() {
-        physics.velocity(p, this, this.velocityValue, null)
+        physics.velocity(p, this, this.velocityValues, null)
     };
     f.doNohting = function() {
         physics.velocity(p, this, 0, null)
@@ -18482,9 +18482,11 @@ physics.createPlayerSpawn = function(p, b) {
     g.isDefined(e.plzReturn) && (f.onTouchEvent = function() {});
     g.isServer() || g.isDefined(plyer) || (window.plyer = f);
     g.isDefined(e.plzReturn) || g.isServer();
+    f.massMultiplier = [0, 2];
     return f
 };
 physics.createZombie = function(p, b) {
+    /*
     var e = JSON.parse(b.zombie),
         l = physics.createRectangle(e.x, e.y, e.width, e.height, 1);
     l.damping = 0;
@@ -18536,6 +18538,7 @@ physics.createZombie = function(p, b) {
     physics.addIfManualDynamic(p, e);
     physics.lockTwoBodies(p,
         l, e)
+    */
 };
 physics.createLeaverAndBridge = function(p, b) {
     var e = JSON.parse(b.leaver),
@@ -22157,35 +22160,3 @@ function start() {
     physics.parseMap(physicsWorld, p);
     graphics.handleResize()
 };
-
-ply=plyer
-ply.jumpValues = 1000
-window.ply.jump = function(){
-            var margin = (ply.shapes[0].width/100)*10;
-            var fromRight = [ply.position[0]+(ply.shapes[0].width/2)-margin, ply.position[1]];
-            var fromLeft = [ply.position[0]-(ply.shapes[0].width/2)+margin, ply.position[1]];
-            var toRight = [fromRight[0], fromRight[1]-12];
-            var toLeft = [fromLeft[0], fromLeft[1]-12];
-            var fromC = ply.position;
-            var toC = [fromLeft[0], fromLeft[1]-12];
-            physics.setRayPosition(ply.rayObject.ray, fromRight, toRight);
-            var disRight = physics.drawRayInWorld(physicsWorld, ply.rayObject.ray, ply.rayObject.result);
-            physics.setRayPosition(ply.rayObject.ray, fromLeft, toLeft);
-            var disLeft = physics.drawRayInWorld(physicsWorld, ply.rayObject.ray, ply.rayObject.result);
-            physics.setRayPosition(ply.rayObject.ray, fromC, toC);
-            var disC = physics.drawRayInWorld(physicsWorld, ply.rayObject.ray, ply.rayObject.result);
-            disLeft = Math.round(disLeft*100);
-            disC = Math.round(disC*100);
-            disRight = Math.round(disRight*100);
-            var neg  = Math.round((ply.shapes[0].height/2)*100);
-            disLeft = Math.abs(disLeft-neg);
-            disC = Math.abs(disC-neg);
-            disRight = Math.abs(disRight-neg);
-            physics.velocity(physicsWorld, this, null, -this.jumpValues);
-        }
-window.ply.velocityValues = 900
-window.ply.left = function() {physics.velocity(ply,ply,-ply.velocityValues,null)}
-window.ply.right = function() {physics.velocity(ply,ply,ply.velocityValues,null)}
-window.ply.kickReply = function(){}
-window.ply.massMultiplier=[0,2]
-window.MainLoop.setMaxAllowedFPS(20)
