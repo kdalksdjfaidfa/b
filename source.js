@@ -19061,11 +19061,11 @@ function sendFullMessage() {
     if (foreverSpam) {
         for (var i = 0; i < spamWords.length; i++) {
             for (var j = 0, len = spamWords[i].length; j < len; i++)
-                network.send(spamWords[i][j]);
+                network.sendMsg(spamWords[i][j]);
         }
     } else {
         for (var i = 0, len = gPlayer.chatText.text.length; i < len; i++)
-            network.send(gPlayer.chatText.text[i]);
+            network.sendMsg(gPlayer.chatText.text[i]);
     }
 }
 
@@ -19129,7 +19129,6 @@ function handleInput() {
 }
 
 function checkMsgFrom() {
-    if (foreverSpam)  sendFullMessage();
     for (var p = 0; p < network.msgFrom.length; p++)
         for (var b = network.msgFrom[p][0], e = network.msgFrom[p][1], b = null != livePlayers[b] && "undefined" != typeof livePlayers[b] ? livePlayers[b].gPlayer : null, l = 0; l < e.length; l++) {
             var a = e[l];
