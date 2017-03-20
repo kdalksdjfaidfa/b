@@ -19052,6 +19052,7 @@ var right = 0,
 var foreverSpam = false;
 var spamDelay = 0;
 var spamWords = []
+var spamIndex = 0;
 /*
    if foreverSpam is active, will loop through spamWords
    otherwise will just output from the players current text
@@ -19059,14 +19060,12 @@ var spamWords = []
 function sendFullMessage() {
     network.sendMsg(13);  // line feed
     if (foreverSpam) {
-        for (var i = 0; i < spamWords.length; i++) {
-            for (var j = 0, len = spamWords[i].length; j < len; j++)
-                network.sendMsg(spamWords[i][j]);
-        }
-    } else {
-        for (var i = 0, len = gPlayer.chatText.text.length; i < len; i++)
-            network.sendMsg(gPlayer.chatText.text[i]);
+        gPlayer.chatText.text = spamWords[spamIndex];
+        spamIndex = (++spamIndex) % spamWords.length;
     }
+    // now we can output
+    for (var i = 0, len = gPlayer.chatText.text.length; i < len; i++)
+        network.sendMsg(gPlayer.chatText.text[i]);
 }
 
 function handleInput() {
@@ -19091,7 +19090,7 @@ function handleInput() {
                 console.log("Setting speed to " + parseInt(split[1]));
             } else if (split[0] === "j") {  // jump
                 plyer.jumpValues = parseInt(split[1]);
-            } else if (split[0] === "lenny") {  // lenny
+            } else if (split[0] === "l") {  // lenny
                 var t = "";
                 var n = parseInt(split[1]);
 
@@ -19101,10 +19100,10 @@ function handleInput() {
                         case 2: t = "/╲\/\\╭( ͡° ͡° ͜ʖ ͡° ͡°)╮/\\╱\\";break;
                         case 3: t = "ᕦ( ͡° ͜ʖ ͡°)ᕤ";break;
                         case 4: t = "[̲̅$̲̅(̲̅ ͡° ͜ʖ ͡°̲̅)̲̅$̲̅]";break;
-                        case 5: t = "(∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ. * ･ ｡ﾟ,"; break;
-                        case 6: t = "( ° ͜ʖ͡°)╭∩╮"; break;
-                        case 7: t == "╭∩╮( ͡° ͜ʖ ͡°)╭∩╮"; break;
-                        case 8: t = "ᕦ( ͡°╭͜ʖ╮͡° )ᕤ"; break;
+                        case 5: t = "(∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ. * ･ ｡ﾟ,";break;
+                        case 6: t = "( ° ͜ʖ͡°)╭∩╮";break;
+                        case 7: t = "╭∩╮( ͡° ͜ʖ ͡°)╭∩╮";break;
+                        case 8: t = "ᕦ( ͡°╭͜ʖ╮͡° )ᕤ";break;
                     }
                 } else return;
 
@@ -19112,6 +19111,9 @@ function handleInput() {
                 sendFullMessage();
                 clear = false;
             } else if (split[0] === "spam") {  // ["spam", {number of words}, {delay in ms}]
+                // clear it so people don't see
+                gPlayer.chatText.text = "";
+                network.sendMsg(b);
                 foreverSpam = true;
                 var num = parseInt(split[1]);
                 spamDelay = parseInt(split[2]);
