@@ -19060,7 +19060,7 @@ function sendFullMessage() {
     network.sendMsg(13);  // line feed
     if (foreverSpam) {
         for (var i = 0; i < spamWords.length; i++) {
-            for (var j = 0, len = spamWords[i].length; j < len; i++)
+            for (var j = 0, len = spamWords[i].length; j < len; j++)
                 network.sendMsg(spamWords[i][j]);
         }
     } else {
@@ -19083,7 +19083,7 @@ function handleInput() {
         if (b === 8) {
             gPlayer.chatText.text = gPlayer.chatText.text.substr(0, gPlayer.chatText.text.length - 1), network.sendMsg(b);
         } else if (b === 13) {
-            var split = gPlayer.chatText.text.split(" ", 3);  // split into an array of exact length 3
+            var split = gPlayer.chatText.text.trim().split(" ", 3);  // split into an array of exact length 3
             var clear = true;
 
             if (split[0] === "s") {  // speed
@@ -19092,13 +19092,23 @@ function handleInput() {
             } else if (split[0] === "j") {  // jump
                 plyer.jumpValues = parseInt(split[1]);
             } else if (split[0] === "lenny") {  // lenny
-                if (split[1] === "1") {
-                    gPlayer.chatText.text = "( ͡° ͜ʖ ͡°)";
-                } else if (split[1] === "2") {
-                    gPlayer.chatText.text = "/╲\/\\╭( ͡° ͡° ͜ʖ ͡° ͡°)╮/\\╱\\";
-                } else if (split[1] === "3") {
-                    gPlayer.chatText.text = "ᕦ( ͡° ͜ʖ ͡°)ᕤ";
-                }
+                var t = "";
+                var n = parseInt(split[1]);
+
+                if (!isNaN(n)) {
+                    switch(n) {
+                        case 1: t = "( ͡° ͜ʖ ͡°)";break;
+                        case 2: t = "/╲\/\\╭( ͡° ͡° ͜ʖ ͡° ͡°)╮/\\╱\\";break;
+                        case 3: t = "ᕦ( ͡° ͜ʖ ͡°)ᕤ";break;
+                        case 4: t = "[̲̅$̲̅(̲̅ ͡° ͜ʖ ͡°̲̅)̲̅$̲̅]";break;
+                        case 5: t = "(∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ. * ･ ｡ﾟ,"; break;
+                        case 6: t = "( ° ͜ʖ͡°)╭∩╮"; break;
+                        case 7: t == "╭∩╮( ͡° ͜ʖ ͡°)╭∩╮"; break;
+                        case 8: t = "ᕦ( ͡°╭͜ʖ╮͡° )ᕤ"; break;
+                    }
+                } else return;
+
+                gPlayer.chatText.text = t;
                 sendFullMessage();
                 clear = false;
             } else if (split[0] === "spam") {  // ["spam", {number of words}, {delay in ms}]
