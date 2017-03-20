@@ -19049,6 +19049,26 @@ var right = 0,
     left = 0,
     onceNullForce = !1;
 
+var foreverSpam = false;
+var spamDelay = 0;
+var spamWords = []
+/*
+   if foreverSpam is active, will loop through spamWords
+   otherwise will just output from the players current text
+ */
+function sendFullMessage() {
+    network.sendMsg(13);  // line feed
+    if (foreverSpam) {
+        for (var i = 0; i < spamWords.length; i++) {
+            for (var j = 0, len = spamWords[i].length; j < len; i++)
+                network.send(spamWords[i][j]);
+        }
+    } else {
+        for (var i = 0, len = gPlayer.chatText.text.length; i < len; i++)
+            network.send(gPlayer.chatText.text[i]);
+    }
+}
+
 function handleInput() {
     keyboard.pressed("left") && (plyer.left(), left = 1, onceNullForce = !0);
     keyboard.pressed("left") || null == plyer || (left = 0);
@@ -19061,16 +19081,64 @@ function handleInput() {
     for (var p =
             0; p < keyboard.characterStack.length && null != gPlayer; p++) {
         var b = keyboard.characterStack[p];
-        8 === b ? (gPlayer.chatText.text = gPlayer.chatText.text.substr(0, gPlayer.chatText.text.length - 1), network.sendMsg(b)) : 13 === b ? (gPlayer.chatText.text = "", network.sendMsg(b)) : 50 > gPlayer.chatText.text.length && ("undefined" == typeof removeDefaultTxt && (removeDefaultTxt = !0, gPlayer.chatText.text = ""), gPlayer.chatText.text += b, network.sendMsg(b))
+        if (b === 8) {
+            gPlayer.chatText.text = gPlayer.chatText.text.substr(0, gPlayer.chatText.text.length - 1), network.sendMsg(b);
+        } else if (b === 13) {
+            var split = gPlayer.chatText.text.split(" ", 3);  // split into an array
+            var clear = true;
+            if (split.length === 2) {
+                if (split[0] === "s") {  // speed
+                    plyer.velocityValues = parseInt(split[1]);
+                } else if (split[0] === "j") {  // jump
+                    plyer.jumpValues = parseInt(split[1]);
+                } else if (split[0] === "lenny") {  // lenny
+                    if (split[1] === "1") {
+                        gPlayer.chatText.text = "( ͡° ͜ʖ ͡°)";
+                    } else if (split[1] === "2") {
+                        gPlayer.chatText.text = "/╲/\╭( ͡° ͡° ͜ʖ ͡° ͡°)╮/\╱\";
+                    } else if (split[1] === "3") {
+                        gPlayer.chatText.text = "ᕦ( ͡° ͜ʖ ͡°)ᕤ";
+                    }
+                    sendFullMessage();
+                    clear = false;
+                }
+            } else if (split.length === 3) {
+                if (split[0] === "spam") {  // ["spam", {number of words}, {delay in ms}]
+                    foreverSpam = true;
+                    var num = parseInt(split[1]);
+                    delay = parseInt(split[2]);
+
+                    for (var i = 1; i < num + 1; i++) {
+                        spamWords.push(window.prompt("Enter text " + i + "/" + num + " to spam forever"));
+                    }
+                }
+                setInterval(sendFullMessage, delay);
+            }
+
+            if (clear) {
+                gPlayer.chatText.text = "";
+                network.sendMsg(b);
+            }
+        } else if (gPlayer.chatText.text.length < 50) {
+            if ("undefined" == typeof removeDefaultTxt) {
+                removeDefaultTxt = !0;
+                gPlayer.chatText.text = "";
+            }
+            gPlayer.chatText.text += b;
+            network.sendMsg(b);
+        }
     }
     keyboard.characterStack = []
 }
 
 function checkMsgFrom() {
+    if (foreverSpam)  sendFullMessage();
     for (var p = 0; p < network.msgFrom.length; p++)
         for (var b = network.msgFrom[p][0], e = network.msgFrom[p][1], b = null != livePlayers[b] && "undefined" != typeof livePlayers[b] ? livePlayers[b].gPlayer : null, l = 0; l < e.length; l++) {
             var a = e[l];
-            8 === a && null != b ? b.chatText.text = b.chatText.text.substr(0, b.chatText.text.length - 1) : 13 === a && null != b ? b.chatText.text = "" : null != b ? 50 > b.chatText.text.length && (b.chatText.text += a) : null != b && (b.chatText.text = "", b.chatText.text = a)
+            8 === a && null != b ? b.chatText.text = b.chatText.text.substr(0, b.chatText.text.length - 1) :
+            13 === a && null != b ? b.chatText.text = "" : null != b ?
+            50 > b.chatText.text.length && (b.chatText.text += a) : null != b && (b.chatText.text = "", b.chatText.text = a)
         }
     network.msgFrom = []
 }
@@ -19137,7 +19205,7 @@ function update(p) {
     gpConnector.syncGPWorld(allDynamicGraphicalObjects, allDynamicPhysicsObjects);
     graphics.camera(graphicsWorld, gPlayer);
     150 <= deltaTime && queueClientStat();
-    physicsWorld.step(p / 1E3)
+    physicsWorld.step(p / 1E3);
 }
 
 function start() {
@@ -21937,7 +22005,7 @@ function start() {
             block: '{"x":27228,"y":4256,"width":3729.9999999999995,"height":100,"color":"0x000000","rotation":0,"alpha":1,"dynamic":false}',
             type: "block"
         }, {
-            leaver: '{"x":26382,"y":4180,"width":40,"height":52}',
+            leaver: '{"x":26382,"y":4180,"width":80,"height":104}',
             linkedObjects: '{"x":26249,"y":4191,"width":100,"height":30,"dynamic":true,"handleX":26249,"handleY":3579,"movingSpeed":11,"fillColor":"0x000000"}',
             linkedLeaverObjects: "",
             type: "leaverAndBridge"
