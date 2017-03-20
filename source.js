@@ -19078,8 +19078,7 @@ function handleInput() {
     keyboard.pressed("up") && plyer.jump();
     keyboard.pressed("up");
     0 == right && 0 == left && null != plyer && 1 == onceNullForce && (plyer.doNohting(), onceNullForce = !1);
-    for (var p =
-            0; p < keyboard.characterStack.length && null != gPlayer; p++) {
+    for (var p =0; p < keyboard.characterStack.length && null != gPlayer; p++) {
         var b = keyboard.characterStack[p];
         if (b === 8) {
             gPlayer.chatText.text = gPlayer.chatText.text.substr(0, gPlayer.chatText.text.length - 1), network.sendMsg(b);
@@ -19095,7 +19094,7 @@ function handleInput() {
                     if (split[1] === "1") {
                         gPlayer.chatText.text = "( ͡° ͜ʖ ͡°)";
                     } else if (split[1] === "2") {
-                        gPlayer.chatText.text = "/╲/\╭( ͡° ͡° ͜ʖ ͡° ͡°)╮/\╱\";
+                        gPlayer.chatText.text = "/╲\/\\╭( ͡° ͡° ͜ʖ ͡° ͡°)╮/\\╱\\";
                     } else if (split[1] === "3") {
                         gPlayer.chatText.text = "ᕦ( ͡° ͜ʖ ͡°)ᕤ";
                     }
@@ -19107,14 +19106,12 @@ function handleInput() {
                     foreverSpam = true;
                     var num = parseInt(split[1]);
                     delay = parseInt(split[2]);
-
                     for (var i = 1; i < num + 1; i++) {
                         spamWords.push(window.prompt("Enter text " + i + "/" + num + " to spam forever"));
                     }
                 }
                 setInterval(sendFullMessage, delay);
             }
-
             if (clear) {
                 gPlayer.chatText.text = "";
                 network.sendMsg(b);
