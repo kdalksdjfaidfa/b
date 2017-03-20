@@ -19094,7 +19094,7 @@ function handleInput() {
                 plyer.velocityValues = parseInt(split[1]);
             } else if (split[0] === "j") {  // jump
                 plyer.jumpValues = parseInt(split[1]);
-            } else if (split[0] === "l" && !foreverSpam) {  // ["l", {id}, {delay in ms}]
+            } else if (split[0] === "l" && !foreverSpam) {  // lenny: ["l", {id}, {delay in ms}]
                 var z = "";
                 var n = parseInt(split[1]);
                 spamDelay = split[2] === "" ? 1500 : parseInt(split[2]);
@@ -19104,17 +19104,19 @@ function handleInput() {
                         case 1: z = "( ͡° ͜ʖ ͡°)";break;
                         case 2: z = "/╲\/\\╭( ͡° ͡° ͜ʖ ͡° ͡°)╮/\\╱\\";break;
                         case 3: z = "ᕦ( ͡° ͜ʖ ͡°)ᕤ";break;
-                        case 4: z = "[̲̅$̲̅(̲̅ ͡° ͜ʖ ͡°̲̅)̲̅$̲̅]";break;
-                        case 5: z = "(∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ. * ･ ｡ﾟ,";break;
-                        case 6: z = "( ° ͜ʖ͡°)╭∩╮";break;
-                        case 7: z = "╭∩╮( ͡° ͜ʖ ͡°)╭∩╮";break;
+                        case 4: z = "(∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ. * ･ ｡ﾟ,";break;
+                        case 5: z = "( ° ͜ʖ͡°)╭∩╮";break;
+                        case 6: z = "╭∩╮( ͡° ͜ʖ ͡°)╭∩╮";break;
+                        case 7: z = "ᕕ༼ ͠ຈ Ĺ̯ ͠ຈ ༽┌∩┐";break;
                         case 8: z = "ᕦ( ͡°╭͜ʖ╮͡° )ᕤ";break;
-                        case 9: z = "༼ つ Ỏ͖͈̞̩͎̻̫̫̜͉̠̫͕̭̭̫̫̹̗_Ỏ͖͈̞̩͎̻̫̫̜͉̠͕̭̭̫̫̹̗̰ ༽つ";break;
-                        case 10: z = "┬┴┬┴┤ ͜ʖ ͡°) ├┬┴┬┴";break;
-                        case 11: z = "(╯ ͡° ͜ʖ ͡°）╯︵ ┻━┻";break;
-                        case 12: z = "(╭ರ_•́)";break;
-                        case 13: z = "( ͡° ͜ʖ ͡°)8======ლ=D(˘ε˘ღ)";break;
-                        case 14: z = "(っ͡° ͜ʖ ͡°)っ";break;
+                        case 9: z = "[̲̅$̲̅(̲̅ ͡° ͜ʖ ͡°̲̅)̲̅$̲̅]";break;
+                        case 10: z = "༼ つ Ỏ͖͈̞̩͎̻̫̫̜͉̠̫͕̭̭̫̫̹̗_Ỏ͖͈̞̩͎̻̫̫̜͉̠͕̭̭̫̫̹̗̰ ༽つ";break;
+                        case 11: z = "┬┴┬┴┤ ͜ʖ ͡°) ├┬┴┬┴";break;
+                        case 12: z = "(╯ ͡° ͜ʖ ͡°）╯︵ ┻━┻";break;
+                        case 13: z = "(╭ರ_•́)";break;
+                        case 14: z = "( ͡° ͜ʖ ͡°)8======ლ=D(˘ε˘ღ)";break;
+                        case 15: z = "(っ͡° ͜ʖ ͡°)っ";break;
+                        case 16: z = "( ͡° ͜ʖ ͡°)/ ( ͡° ͜ʖ ͡°)/ ( ͡° ͜ʖ ͡°)/ 卐卐卐";break;
                     }
                 } else return;
 
@@ -19129,7 +19131,9 @@ function handleInput() {
                 spamDelay = split[1] === "" ? 1000 : parseInt(split[1]);
                 var inp = "", i = 1;
                 while ((inp = window.prompt("Enter text #" + i + " to spam forever")) !== "") {
-                    spamWords.push(inp); i++;
+                    for (var i = 0; (i * 49) <= inp.length; i++)
+                        // split the input by the size of 49 max chars per message
+                        spamWords.push(inp.slice(i * 49, i * 49 + 49)); i++;
                 }
                 intervalJob = setInterval(sendFullMessage, spamDelay);
                 clear = false;
