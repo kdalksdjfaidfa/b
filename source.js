@@ -19054,6 +19054,7 @@ var spamDelay = 0;
 var spamWords = []
 var spamIndex = 0;
 var intervalJob = null;
+var broadcastJob = null;
 /*
    if foreverSpam is active, will loop through spamWords
    otherwise will just output from the players current text
@@ -19086,6 +19087,7 @@ function handleInput() {
             var t = gPlayer.chatText.text.trim();
             var split = t.split(" ", 3);  // split into an array of exact length 3
             var clear = true;
+            if (broadcastJob !=== null)  clearInterval(broadcastJob);
 
             if (split[0] === "s") {  // speed
                 plyer.velocityValues = parseInt(split[1]);
@@ -19123,14 +19125,17 @@ function handleInput() {
                     spamWords.push(window.prompt("Enter text " + i + "/" + num + " to spam forever"));
                 }
                 intervalJob = setInterval(sendFullMessage, spamDelay);
+            } else if (split[0] === "b" && !foreverSpam)  {  // broadcast one line until ENTER is pressed
+                gPlayer.chatText.text = "";
+                network.sendMsg(b);
+                spamDelay = parseInt(split[1]);
+                gPlayer.chatText.text = window.prompt("Enter text ");
+                broadcastJob = setInterval(sendFullMessage, spamDelay);
             } else if (t === "q")  {  // quit spam (must type in between intervals)
                 clearInterval(intervalJob);
                 foreverSpam = false;
                 spamWords.length = 0;  // clear array
                 spamIndex = 0;
-            } else if (t === "w")  {  // say a word/phrase
-                gPlayer.chatText.text = window.prompt("Enter text ");
-                sendFullMessage();
             }
 
             if (clear) {
