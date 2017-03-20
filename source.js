@@ -12771,7 +12771,6 @@ var $jscomp={scope:{}};$jscomp.defineProperty="function"==typeof Object.definePr
                 this.fixedX = !!d.fixedX;
                 this.fixedY = !!d.fixedY;
                 this.massMultiplier = k.create();
-                this.massMultiplier = [0, 2];  // injected?
                 this.position = k.fromValues(0, 0);
                 d.position && k.copy(this.position, d.position);
                 this.interpolatedPosition = k.fromValues(0, 0);
@@ -12889,7 +12888,7 @@ var $jscomp={scope:{}};$jscomp.defineProperty="function"==typeof Object.definePr
                         this.invInertia = 0 < e ? 1 / e : 0
                     }
                     this.invMass = 1 / this.mass;
-                    k.set(this.massMultiplier, this.fixedX ? 0 : 1, this.fixedY ? 0 : 1)
+                    k.set(this.massMultiplier, this.fixedX ? 0 : 0, this.fixedY ? 0 : 2)
                 }
             };
             k.create();
@@ -14947,10 +14946,10 @@ var $jscomp={scope:{}};$jscomp.defineProperty="function"==typeof Object.definePr
             r = !1
         }
     }
-    var e = 1E3 / 30,
-        l = 0,
+    var l = 0,
         a = 50,
-        k = 30,
+        k = 20,
+        e = 1E3 / k,
         f = 0,
         d = 0,
         h = 0,
