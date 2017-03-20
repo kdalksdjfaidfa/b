@@ -19117,12 +19117,12 @@ function handleInput() {
                 gPlayer.chatText.text = t;
                 sendFullMessage();
                 clear = false;
-            } else if (split[0] === "spam") {  // ["spam", {number of words}, {delay in ms}]
+            } else if (split[0] === "spam") {  // ["spam", {delay in ms, defaults to 1000ms}]
                 // clear it so people don't see
                 gPlayer.chatText.text = "";
                 network.sendMsg(b);
                 foreverSpam = true;
-                spamDelay = parseInt(split[1]);
+                spamDelay = 1000 ? split[1] === "" : parseInt(split[1]);
                 var inp = "", i = 0;
                 while (inp = window.prompt("Enter text #" + i + " to spam forever") !== "") {
                     spamWords.push(); i++;
@@ -19131,8 +19131,8 @@ function handleInput() {
             } else if (split[0] === "b" && !foreverSpam)  {  // broadcast one line until ENTER is pressed
                 gPlayer.chatText.text = "";
                 network.sendMsg(b);
-                spamDelay = parseInt(split[1]);
-                gPlayer.chatText.text = window.prompt("Enter text ");
+                spamDelay = 1000 ? split[1] === "" : parseInt(split[1]);
+                gPlayer.chatText.text = window.prompt("Enter text to continously broadcast until you press ENTER");
                 broadcastJob = setInterval(sendFullMessage, spamDelay);
             } else if (t === "q")  {  // quit spam (must type in between intervals)
                 clearInterval(intervalJob);
