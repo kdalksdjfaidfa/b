@@ -19087,7 +19087,7 @@ function handleInput() {
             var t = gPlayer.chatText.text.trim();
             var split = t.split(" ", 3);  // split into an array of exact length 3
             var clear = true;
-            if (broadcastJob !=== null)  clearInterval(broadcastJob);
+            if (broadcastJob !== null)  clearInterval(broadcastJob);
 
             if (split[0] === "s") {  // speed
                 plyer.velocityValues = parseInt(split[1]);
@@ -19108,6 +19108,9 @@ function handleInput() {
                         case 6: t = "( ° ͜ʖ͡°)╭∩╮";break;
                         case 7: t = "╭∩╮( ͡° ͜ʖ ͡°)╭∩╮";break;
                         case 8: t = "ᕦ( ͡°╭͜ʖ╮͡° )ᕤ";break;
+                        case 9: t = "༼ つ Ỏ͖͈̞̩͎̻̫̫̜͉̠̫͕̭̭̫̫̹̗_Ỏ͖͈̞̩͎̻̫̫̜͉̠͕̭̭̫̫̹̗̰ ༽つ";break;
+                        case 10: t = "┬┴┬┴┤ ͜ʖ ͡°) ├┬┴┬┴";break;
+                        case 11: t = "(╯ ͡° ͜ʖ ͡°）╯︵ ┻━┻";break;
                     }
                 } else return;
 
@@ -19119,10 +19122,10 @@ function handleInput() {
                 gPlayer.chatText.text = "";
                 network.sendMsg(b);
                 foreverSpam = true;
-                var num = parseInt(split[1]);
-                spamDelay = parseInt(split[2]);
-                for (var i = 1; i < num + 1; i++) {
-                    spamWords.push(window.prompt("Enter text " + i + "/" + num + " to spam forever"));
+                spamDelay = parseInt(split[1]);
+                var inp = "", i = 0;
+                while (inp = window.prompt("Enter text #" + i + " to spam forever") !== "") {
+                    spamWords.push(); i++;
                 }
                 intervalJob = setInterval(sendFullMessage, spamDelay);
             } else if (split[0] === "b" && !foreverSpam)  {  // broadcast one line until ENTER is pressed
