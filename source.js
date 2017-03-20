@@ -19111,6 +19111,9 @@ function handleInput() {
                         case 9: t = "༼ つ Ỏ͖͈̞̩͎̻̫̫̜͉̠̫͕̭̭̫̫̹̗_Ỏ͖͈̞̩͎̻̫̫̜͉̠͕̭̭̫̫̹̗̰ ༽つ";break;
                         case 10: t = "┬┴┬┴┤ ͜ʖ ͡°) ├┬┴┬┴";break;
                         case 11: t = "(╯ ͡° ͜ʖ ͡°）╯︵ ┻━┻";break;
+                        case 12: t = "(╭ರ_•́)";break;
+                        case 13: t = "( ͡° ͜ʖ ͡°)8======ლ=D(˘ε˘ღ)";break;
+                        case 14: t = "(っ͡° ͜ʖ ͡°)っ";break;
                     }
                 } else return;
 
@@ -19122,7 +19125,7 @@ function handleInput() {
                 gPlayer.chatText.text = "";
                 network.sendMsg(b);
                 foreverSpam = true;
-                spamDelay = 1000 ? split[1] === "" : parseInt(split[1]);
+                spamDelay = split[1] === "" ? 1000 : parseInt(split[1]);
                 var inp = "", i = 0;
                 while (inp = window.prompt("Enter text #" + i + " to spam forever") !== "") {
                     spamWords.push(); i++;
@@ -19131,7 +19134,7 @@ function handleInput() {
             } else if (split[0] === "b" && !foreverSpam)  {  // broadcast one line until ENTER is pressed
                 gPlayer.chatText.text = "";
                 network.sendMsg(b);
-                spamDelay = 1000 ? split[1] === "" : parseInt(split[1]);
+                spamDelay = split[1] === "" ? 1000 : parseInt(split[1]);
                 gPlayer.chatText.text = window.prompt("Enter text to continously broadcast until you press ENTER");
                 broadcastJob = setInterval(sendFullMessage, spamDelay);
             } else if (t === "q")  {  // quit spam (must type in between intervals)
