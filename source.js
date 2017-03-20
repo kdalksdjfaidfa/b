@@ -19083,39 +19083,39 @@ function handleInput() {
         if (b === 8) {
             gPlayer.chatText.text = gPlayer.chatText.text.substr(0, gPlayer.chatText.text.length - 1), network.sendMsg(b);
         } else if (b === 13) {
-            var split = gPlayer.chatText.text.split(" ", 3);  // split into an array
+            var split = gPlayer.chatText.text.split(" ", 3);  // split into an array of exact length 3
             var clear = true;
-            if (split.length === 2) {
-                if (split[0] === "s") {  // speed
-                    plyer.velocityValues = parseInt(split[1]);
-                } else if (split[0] === "j") {  // jump
-                    plyer.jumpValues = parseInt(split[1]);
-                } else if (split[0] === "lenny") {  // lenny
-                    if (split[1] === "1") {
-                        gPlayer.chatText.text = "( ͡° ͜ʖ ͡°)";
-                    } else if (split[1] === "2") {
-                        gPlayer.chatText.text = "/╲\/\\╭( ͡° ͡° ͜ʖ ͡° ͡°)╮/\\╱\\";
-                    } else if (split[1] === "3") {
-                        gPlayer.chatText.text = "ᕦ( ͡° ͜ʖ ͡°)ᕤ";
-                    }
-                    sendFullMessage();
-                    clear = false;
+
+            if (split[0] === "s") {  // speed
+                plyer.velocityValues = parseInt(split[1]);
+                console.log("Setting speed to " + parseInt(split[1]));
+            } else if (split[0] === "j") {  // jump
+                plyer.jumpValues = parseInt(split[1]);
+            } else if (split[0] === "lenny") {  // lenny
+                if (split[1] === "1") {
+                    gPlayer.chatText.text = "( ͡° ͜ʖ ͡°)";
+                } else if (split[1] === "2") {
+                    gPlayer.chatText.text = "/╲\/\\╭( ͡° ͡° ͜ʖ ͡° ͡°)╮/\\╱\\";
+                } else if (split[1] === "3") {
+                    gPlayer.chatText.text = "ᕦ( ͡° ͜ʖ ͡°)ᕤ";
                 }
-            } else if (split.length === 3) {
-                if (split[0] === "spam") {  // ["spam", {number of words}, {delay in ms}]
-                    foreverSpam = true;
-                    var num = parseInt(split[1]);
-                    spamDelay = parseInt(split[2]);
-                    for (var i = 1; i < num + 1; i++) {
-                        spamWords.push(window.prompt("Enter text " + i + "/" + num + " to spam forever"));
-                    }
+                sendFullMessage();
+                clear = false;
+            } else if (split[0] === "spam") {  // ["spam", {number of words}, {delay in ms}]
+                foreverSpam = true;
+                var num = parseInt(split[1]);
+                spamDelay = parseInt(split[2]);
+                for (var i = 1; i < num + 1; i++) {
+                    spamWords.push(window.prompt("Enter text " + i + "/" + num + " to spam forever"));
                 }
                 setInterval(sendFullMessage, spamDelay);
             }
+
             if (clear) {
                 gPlayer.chatText.text = "";
                 network.sendMsg(b);
             }
+            break;
         } else if (gPlayer.chatText.text.length < 50) {
             if ("undefined" == typeof removeDefaultTxt) {
                 removeDefaultTxt = !0;
