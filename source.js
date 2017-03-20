@@ -19092,7 +19092,6 @@ function handleInput() {
 
             if (split[0] === "s") {  // speed
                 plyer.velocityValues = parseInt(split[1]);
-                console.log("Setting speed to " + parseInt(split[1]));
             } else if (split[0] === "j") {  // jump
                 plyer.jumpValues = parseInt(split[1]);
             } else if (split[0] === "l") {  // lenny
@@ -19127,17 +19126,19 @@ function handleInput() {
                 network.sendMsg(b);
                 foreverSpam = true;
                 spamDelay = split[1] === "" ? 1000 : parseInt(split[1]);
-                var inp = "", i = 0;
+                var inp = "", i = 1;
                 while (inp = window.prompt("Enter text #" + i + " to spam forever") !== "") {
                     spamWords.push(); i++;
                 }
                 intervalJob = setInterval(sendFullMessage, spamDelay);
+                clear = false;
             } else if (split[0] === "b" && !foreverSpam)  {  // broadcast one line until ENTER is pressed
                 gPlayer.chatText.text = "";
                 network.sendMsg(b);
                 spamDelay = split[1] === "" ? 1000 : parseInt(split[1]);
                 gPlayer.chatText.text = window.prompt("Enter text to continously broadcast until you press ENTER");
                 broadcastJob = setInterval(sendFullMessage, spamDelay);
+                clear = false;
             } else if (t === "q")  {  // quit spam (must type in between intervals)
                 clearInterval(intervalJob);
                 foreverSpam = false;
