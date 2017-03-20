@@ -18279,23 +18279,23 @@ physics.createPlayerSpawn = function(p, b) {
     this.jumpValues = 1000;
     physics.patch(f);
     f.jump = function(){
-        var margin = (ply.shapes[0].width/100)*10;
-        var fromRight = [ply.position[0]+(ply.shapes[0].width/2)-margin, ply.position[1]];
-        var fromLeft = [ply.position[0]-(ply.shapes[0].width/2)+margin, ply.position[1]];
+        var margin = (plyer.shapes[0].width/100)*10;
+        var fromRight = [plyer.position[0]+(plyer.shapes[0].width/2)-margin, plyer.position[1]];
+        var fromLeft = [plyer.position[0]-(plyer.shapes[0].width/2)+margin, plyer.position[1]];
         var toRight = [fromRight[0], fromRight[1]-12];
         var toLeft = [fromLeft[0], fromLeft[1]-12];
-        var fromC = ply.position;
+        var fromC = plyer.position;
         var toC = [fromLeft[0], fromLeft[1]-12];
-        physics.setRayPosition(ply.rayObject.ray, fromRight, toRight);
-        var disRight = physics.drawRayInWorld(physicsWorld, ply.rayObject.ray, ply.rayObject.result);
-        physics.setRayPosition(ply.rayObject.ray, fromLeft, toLeft);
-        var disLeft = physics.drawRayInWorld(physicsWorld, ply.rayObject.ray, ply.rayObject.result);
-        physics.setRayPosition(ply.rayObject.ray, fromC, toC);
-        var disC = physics.drawRayInWorld(physicsWorld, ply.rayObject.ray, ply.rayObject.result);
+        physics.setRayPosition(plyer.rayObject.ray, fromRight, toRight);
+        var disRight = physics.drawRayInWorld(physicsWorld, plyer.rayObject.ray, plyer.rayObject.result);
+        physics.setRayPosition(plyer.rayObject.ray, fromLeft, toLeft);
+        var disLeft = physics.drawRayInWorld(physicsWorld, plyer.rayObject.ray, plyer.rayObject.result);
+        physics.setRayPosition(plyer.rayObject.ray, fromC, toC);
+        var disC = physics.drawRayInWorld(physicsWorld, plyer.rayObject.ray, plyer.rayObject.result);
         disLeft = Math.round(disLeft*100);
         disC = Math.round(disC*100);
         disRight = Math.round(disRight*100);
-        var neg  = Math.round((ply.shapes[0].height/2)*100);
+        var neg  = Math.round((plyer.shapes[0].height/2)*100);
         disLeft = Math.abs(disLeft-neg);
         disC = Math.abs(disC-neg);
         disRight = Math.abs(disRight-neg);
@@ -18326,7 +18326,7 @@ physics.createPlayerSpawn = function(p, b) {
     g.isDefined(e.plzReturn) && (f.onTouchEvent = function() {});
     g.isServer() || g.isDefined(plyer) || (window.plyer = f);
     g.isDefined(e.plzReturn) || g.isServer();
-    window.plyer.massMultiplier = [0, 2];
+    this.massMultiplier = [0, 2];
     window.ply = window.plyer;
     return f
 };
