@@ -19105,12 +19105,12 @@ function handleInput() {
                 if (split[0] === "spam") {  // ["spam", {number of words}, {delay in ms}]
                     foreverSpam = true;
                     var num = parseInt(split[1]);
-                    delay = parseInt(split[2]);
+                    spamDelay = parseInt(split[2]);
                     for (var i = 1; i < num + 1; i++) {
                         spamWords.push(window.prompt("Enter text " + i + "/" + num + " to spam forever"));
                     }
                 }
-                setInterval(sendFullMessage, delay);
+                setInterval(sendFullMessage, spamDelay);
             }
             if (clear) {
                 gPlayer.chatText.text = "";
