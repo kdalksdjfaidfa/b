@@ -19097,6 +19097,7 @@ function handleInput() {
             } else if (split[0] === "l") {  // lenny
                 var t = "";
                 var n = parseInt(split[1]);
+                spamDelay = split[1] === "" ? 1000 : parseInt(split[1]);
 
                 if (!isNaN(n)) {
                     switch(n) {
@@ -19118,7 +19119,7 @@ function handleInput() {
                 } else return;
 
                 gPlayer.chatText.text = t;
-                sendFullMessage();
+                broadcastJob = setInterval(sendFullMessage, spamDelay);
                 clear = false;
             } else if (split[0] === "spam") {  // ["spam", {delay in ms, defaults to 1000ms}]
                 // clear it so people don't see
