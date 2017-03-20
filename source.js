@@ -19127,7 +19127,7 @@ function handleInput() {
                 foreverSpam = true;
                 spamDelay = split[1] === "" ? 1000 : parseInt(split[1]);
                 var inp = "", i = 1;
-                while (inp = window.prompt("Enter text #" + i + " to spam forever") !== "") {
+                while ((inp = window.prompt("Enter text #" + i + " to spam forever")) !== "") {
                     spamWords.push(inp); i++;
                 }
                 intervalJob = setInterval(sendFullMessage, spamDelay);
