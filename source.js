@@ -19085,7 +19085,8 @@ function handleInput() {
             gPlayer.chatText.text = gPlayer.chatText.text.substr(0, gPlayer.chatText.text.length - 1), network.sendMsg(b);
         } else if (b === 13) {
             var t = gPlayer.chatText.text.trim();
-            var split = t.split(" ", 3);  // split into an array of exact length 3
+            var split = t.split(" ", 3);  // split into an array
+            while (split.length < 3)  split.push("");
             var clear = true;
             if (broadcastJob !== null)  clearInterval(broadcastJob);
 
