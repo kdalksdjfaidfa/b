@@ -14954,7 +14954,7 @@ var $jscomp={scope:{}};$jscomp.defineProperty="function"==typeof Object.definePr
         f = 0,
         d = 0,
         h = 0,
-        m = 0,
+        m = e,
         q = !1,
         n = !1,
         r = !1,
@@ -17756,9 +17756,11 @@ network.disconnect = function() {
     "undefined" == typeof network.doNotTriggerDisconnect && (alert("Disconnected from server, PLEASE RELOAD"), location.reload())
 };
 network.onExtraTabOpened = function() {
+    /*
     console.log("onExtraTabOpened");
     window.location = "/spam.html";
     network.doNotTriggerDisconnect = !0
+    */
 };
 network.onLockCheckPoint = function(p) {
     p = p.split(",");
