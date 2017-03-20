@@ -19094,10 +19094,10 @@ function handleInput() {
                 plyer.velocityValues = parseInt(split[1]);
             } else if (split[0] === "j") {  // jump
                 plyer.jumpValues = parseInt(split[1]);
-            } else if (split[0] === "l" && !foreverSpam) {  // lenny
+            } else if (split[0] === "l" && !foreverSpam) {  // ["l", {id}, {delay in ms}]
                 var z = "";
                 var n = parseInt(split[1]);
-                spamDelay = split[1] === "" ? 1500 : parseInt(split[1]);
+                spamDelay = split[2] === "" ? 1500 : parseInt(split[2]);
 
                 if (!isNaN(n)) {
                     switch(n) {
