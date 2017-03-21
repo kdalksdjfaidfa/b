@@ -19070,6 +19070,55 @@ function sendFullMessage() {
         network.sendMsg(gPlayer.chatText.text[i]);
 }
 
+/* returns an array of lines at most 49 chars long */
+function getLinesFromText(text) {
+    var M = 49;
+    var r = [];
+    for (var i = 0; (i * M) <= text.length; i++) {
+        // split the input by the size of M max chars per message
+        r.push(text.slice(i * M, i * M + M));
+    }
+    return r;
+}
+
+function tokenizeAndAddToSpamWords(text) {
+    var MAXLENGTH = 49;  // each line can have at most 49 characters
+    var current = 0;    // length of string in spamWords[wordIndex] so far
+    var wordIndex = -1;   // index in `spamWords`
+    spamWords.length = 0;
+
+    var newlineSplit = text.split("\n");
+    for (var j = 0; j < newlineSplit.length; j++) {
+        if (newlineSplit[j].trim() === "")  continue;
+        current = MAXLENGTH + 1;  // prepare new line (it'll be done below)
+        var spaceSplit = newlineSplit[j].split(" ");
+        for (var k = 0; k < spaceSplit.length; k++) {
+            var word = spaceSplit[k];
+            console.log(word);
+            if (word.trim() === "") {
+                continue;
+            } else if (word.length > MAXLENGTH) {
+                console.log("word length > MAXLENGTH");
+                // if over length, then just have this word appear in a full new line
+                spamWords = spamWords.concat(getLinesFromText(word));
+                wordIndex = spamWords.length - 1;
+                current = spamWords[wordIndex].length;
+            } else if (word.length + current + 1 > MAXLENGTH) {
+                console.log("word length + current of " + current + " > MAXLENGTH");
+                // if overflow, then start a new line
+                spamWords.push(word);
+                current = word.length;
+                wordIndex++;
+            } else {
+                console.log("Added word to spamWords");
+                // if the word fits, then append to the current line (don't forget the space)
+                spamWords[wordIndex] += " " + word;
+                current = spamWords[wordIndex].length;
+            }
+        }
+    }
+}
+
 function handleInput() {
     keyboard.pressed("left") && (plyer.left(), left = 1, onceNullForce = !0);
     keyboard.pressed("left") || null == plyer || (left = 0);
@@ -19079,6 +19128,8 @@ function handleInput() {
     keyboard.pressed("up") && plyer.jump();
     keyboard.pressed("up");
     0 == right && 0 == left && null != plyer && 1 == onceNullForce && (plyer.doNohting(), onceNullForce = !1);
+    var foreverDelay = 2000;
+    var broadcastDelay = 3000;
     for (var p =0; p < keyboard.characterStack.length && null != gPlayer; p++) {
         var b = keyboard.characterStack[p];
         if (b === 8) {
@@ -19097,7 +19148,7 @@ function handleInput() {
             } else if (split[0] === "l" && !foreverSpam) {  // lenny: ["l", {id}, {delay in ms}]
                 var z = "";
                 var n = parseInt(split[1]);
-                spamDelay = split[2] === "" ? 1500 : parseInt(split[2]);
+                spamDelay = split[2] === "" ? broadcastDelay : parseInt(split[2]);
 
                 if (!isNaN(n)) {
                     switch(n) {
@@ -19117,30 +19168,43 @@ function handleInput() {
                         case 14: z = "( ͡° ͜ʖ ͡°)8======ლ=D(˘ε˘ღ)";break;
                         case 15: z = "(っ͡° ͜ʖ ͡°)っ";break;
                         case 16: z = "( ͡° ͜ʖ ͡°)/ ( ͡° ͜ʖ ͡°)/ ( ͡° ͜ʖ ͡°)/ 卐卐卐";break;
+                        case 17: z = "̿̿ ̿̿ ̿̿ ̿'̿'̵͇̿̿з=( ͠° ͟ʖ ͡°)=ε/̵͇̿̿/'̿̿ ̿ ̿ ̿ ̿";break;
                     }
                 } else return;
 
                 gPlayer.chatText.text = z;
                 broadcastJob = setInterval(sendFullMessage, spamDelay);
                 clear = false;
-            } else if (split[0] === "spam") {  // ["spam", {delay in ms, defaults to 1000ms}]
+            } else if (split[0] === "spam" && !foreverSpam) {  // ["spam", {delay in ms}]
                 // clear it so people don't see
                 gPlayer.chatText.text = "";
                 network.sendMsg(b);
                 foreverSpam = true;
-                spamDelay = split[1] === "" ? 1000 : parseInt(split[1]);
-                var inp = "", i = 1;
-                while ((inp = window.prompt("Enter text #" + i + " to spam forever")) !== "") {
-                    for (var i = 0; (i * 49) <= inp.length; i++)
-                        // split the input by the size of 49 max chars per message
-                        spamWords.push(inp.slice(i * 49, i * 49 + 49)); i++;
+                spamDelay = split[1] === "" ? foreverDelay : parseInt(split[1]);
+                var inp = "", c = 1;
+                while ((inp = window.prompt("Enter text #" + (c++) + " to spam forever")) !== "") {
+                    spamWords = spamWords.concat(getLinesFromText(inp));
+                }
+                intervalJob = setInterval(sendFullMessage, spamDelay);
+                clear = false;
+            } else if (split[0] === "fmt" && !foreverSpam) {  //  ["fmt", (delay)]
+                // will try to fit only whole words in each set of 50 chars
+                // rules: split by newlines. in each newline, will split by space only.
+                // "whole" words are the strings in the split array
+                gPlayer.chatText.text = "";
+                network.sendMsg(b);
+                foreverSpam = true;
+                spamDelay = split[1] === "" ? foreverDelay : parseInt(split[1]);
+                var inp = "", c = 1;
+                while ((inp = window.prompt("Enter text #" + c + " to formatted spam forever")) !== "") {
+                    tokenizeAndAddToSpamWords(inp.trim());
                 }
                 intervalJob = setInterval(sendFullMessage, spamDelay);
                 clear = false;
             } else if (split[0] === "b" && !foreverSpam)  {  // broadcast one line until ENTER is pressed
                 gPlayer.chatText.text = "";
                 network.sendMsg(b);
-                spamDelay = split[1] === "" ? 1500 : parseInt(split[1]);
+                spamDelay = split[1] === "" ? broadcastDelay : parseInt(split[1]);
                 gPlayer.chatText.text = window.prompt("Enter text to continously broadcast until you press ENTER");
                 broadcastJob = setInterval(sendFullMessage, spamDelay);
                 clear = false;
