@@ -19084,7 +19084,7 @@ function getLinesFromText(text) {
 function tokenizeAndAddToSpamWords(text) {
     var MAXLENGTH = 49;  // each line can have at most 49 characters
     var current = 0;    // length of string in spamWords[wordIndex] so far
-    var wordIndex = -1;   // index in `spamWords`
+    var wordIndex = spamWords.length - 1;   // index in `spamWords`
 
     var newlineSplit = text.split("\n");
     for (var j = 0; j < newlineSplit.length; j++) {
@@ -19124,8 +19124,8 @@ function handleInput() {
     keyboard.pressed("up") && plyer.jump();
     keyboard.pressed("up");
     0 == right && 0 == left && null != plyer && 1 == onceNullForce && (plyer.doNohting(), onceNullForce = !1);
-    var foreverDelay = 2000;
-    var broadcastDelay = 3000;
+    var foreverDelay = 2500;
+    var broadcastDelay = 4000;
     for (var p =0; p < keyboard.characterStack.length && null != gPlayer; p++) {
         var b = keyboard.characterStack[p];
         if (b === 8) {
@@ -19144,7 +19144,6 @@ function handleInput() {
             } else if (split[0] === "l" && !foreverSpam) {  // lenny: ["l", {id}, {delay in ms}]
                 var z = "";
                 var n = parseInt(split[1]);
-                spamDelay = split[2] === "" ? broadcastDelay : parseInt(split[2]);
 
                 if (!isNaN(n)) {
                     switch(n) {
@@ -19166,11 +19165,11 @@ function handleInput() {
                         case 16: z = "( ͡° ͜ʖ ͡°)/ ( ͡° ͜ʖ ͡°)/ ( ͡° ͜ʖ ͡°)/ 卐卐卐";break;
                         case 17: z = "̿̿ ̿̿ ̿̿ ̿'̿'̵͇̿̿з=( ͠° ͟ʖ ͡°)=ε/̵͇̿̿/'̿̿ ̿ ̿ ̿ ̿";break;
                     }
-                } else return;
-
-                gPlayer.chatText.text = z;
-                broadcastJob = setInterval(sendFullMessage, spamDelay);
-                clear = false;
+                    spamDelay = split[2] === "" ? broadcastDelay : parseInt(split[2]);
+                    gPlayer.chatText.text = z;
+                    broadcastJob = setInterval(sendFullMessage, spamDelay);
+                    clear = false;
+                }
             } else if (split[0] === "spam" && !foreverSpam) {  // ["spam", {delay in ms}]
                 // clear it so people don't see
                 gPlayer.chatText.text = "";
