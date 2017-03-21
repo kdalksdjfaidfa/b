@@ -19085,7 +19085,6 @@ function tokenizeAndAddToSpamWords(text) {
     var MAXLENGTH = 49;  // each line can have at most 49 characters
     var current = 0;    // length of string in spamWords[wordIndex] so far
     var wordIndex = -1;   // index in `spamWords`
-    spamWords.length = 0;
 
     var newlineSplit = text.split("\n");
     for (var j = 0; j < newlineSplit.length; j++) {
@@ -19093,9 +19092,8 @@ function tokenizeAndAddToSpamWords(text) {
         current = MAXLENGTH + 1;  // prepare new line (it'll be done below)
         var spaceSplit = newlineSplit[j].split(" ");
         for (var k = 0; k < spaceSplit.length; k++) {
-            var word = spaceSplit[k];
-            console.log(word);
-            if (word.trim() === "") {
+            var word = spaceSplit[k].trim();
+            if (word === "") {
                 continue;
             } else if (word.length > MAXLENGTH) {
                 console.log("word length > MAXLENGTH");
@@ -19182,9 +19180,8 @@ function handleInput() {
                 foreverSpam = true;
                 spamDelay = split[1] === "" ? foreverDelay : parseInt(split[1]);
                 var inp = "", c = 1;
-                while ((inp = window.prompt("Enter text #" + (c++) + " to spam forever")) !== "") {
+                while ((inp = window.prompt("Enter text #" + (c++) + " to spam forever")) !== "")
                     spamWords = spamWords.concat(getLinesFromText(inp));
-                }
                 intervalJob = setInterval(sendFullMessage, spamDelay);
                 clear = false;
             } else if (split[0] === "fmt" && !foreverSpam) {  //  ["fmt", (delay)]
@@ -19196,9 +19193,8 @@ function handleInput() {
                 foreverSpam = true;
                 spamDelay = split[1] === "" ? foreverDelay : parseInt(split[1]);
                 var inp = "", c = 1;
-                while ((inp = window.prompt("Enter text #" + c + " to formatted spam forever")) !== "") {
+                while ((inp = window.prompt("Enter text #" + (c++) + " to formatted spam forever")) !== "")
                     tokenizeAndAddToSpamWords(inp.trim());
-                }
                 intervalJob = setInterval(sendFullMessage, spamDelay);
                 clear = false;
             } else if (split[0] === "b" && !foreverSpam)  {  // broadcast one line until ENTER is pressed
