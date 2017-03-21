@@ -19096,13 +19096,11 @@ function tokenizeAndAddToSpamWords(text) {
             if (word === "") {
                 continue;
             } else if (word.length > MAXLENGTH) {
-                console.log("word length > MAXLENGTH");
                 // if over length, then just have this word appear in a full new line
                 spamWords = spamWords.concat(getLinesFromText(word));
                 wordIndex = spamWords.length - 1;
                 current = spamWords[wordIndex].length;
             } else if (word.length + current + 1 > MAXLENGTH) {
-                console.log("word length + current of " + current + " > MAXLENGTH");
                 // if overflow, then start a new line
                 spamWords.push(word);
                 current = word.length;
@@ -19204,6 +19202,8 @@ function handleInput() {
                 gPlayer.chatText.text = window.prompt("Enter text to continously broadcast until you press ENTER");
                 broadcastJob = setInterval(sendFullMessage, spamDelay);
                 clear = false;
+            } else if (t === "r" && foreverSpam) {  // restart the foreverSpam index
+                spamIndex = 0;
             } else if (t === "q")  {  // quit spam (must type in between intervals)
                 clearInterval(intervalJob);
                 foreverSpam = false;
