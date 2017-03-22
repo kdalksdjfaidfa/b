@@ -17749,10 +17749,13 @@ network.addSocket = function(p) {
     p.on("c", this.onOtherPlayerNameChange);
     p.on("kr", function() { console.log("Lol they tried to kick you"); });
     p.on("disconnect", function() { console.log("Something tried to disconnect you"); });
-    p.on("connect_error", function() {})
+    network.socket.disconnect = function(is, p, t, f, o) { console.log(is, p, t, f, o); }
+    network.socket.destroy = function(is, p, t, f, o) { console.log(is, p, t, f, o); }
 };
 network.disconnect = function() {
+    /*
     "undefined" == typeof network.doNotTriggerDisconnect && (alert("Disconnected from server, PLEASE RELOAD"), location.reload())
+    */
 };
 network.onExtraTabOpened = function() {
     /*
@@ -17772,7 +17775,10 @@ network.onLockCheckPoint = function(p) {
     plyer.velocity[1] = 0
 };
 network.kick = function(p) {
+    console.log(p);
+    /*
     null != this.socket && this.socket.emit("k", p)
+    */
 };
 network.onOtherPlayerNameChange = function(p) {
     p = p.split(",");
@@ -17833,7 +17839,6 @@ network.onPlayersData = function(p) {
                 dynamic: !0,
                 plzReturn: !0
             };
-            console.log("skin: " + f);
             f = 0;
             d.gPlayer = graphics.createPlayerSpawn(graphicsWorld, {
                 playerSpawn: JSON.stringify(h)
@@ -17852,7 +17857,7 @@ network.onPlayersData = function(p) {
         };
         d.startX = d.last2Packets[0].x;
         d.startY = d.last2Packets[0].y;
-        d.gPlayer.currentSkin != f && (d.gPlayer.currentSkin = f, console.log("now loading skin: " + f), graphics.loadTextureFromUrl("skins/" + f + ".png",
+        d.gPlayer.currentSkin != f && (d.gPlayer.currentSkin = f, graphics.loadTextureFromUrl("skins/" + f + ".png",
             "skins/0.png", d.gPlayer));
         "" != k && (d.gPlayer.nameText.text = k)
     }
@@ -17985,7 +17990,6 @@ var g = {
             };
             e = e || window.event;
             e = e.type in l ? l[e.type] : this[b] ? "hidden" : "visible";
-            console.log(document.body.className);
             "visible" == e ? MainLoop.start() : "hidden" == e ? MainLoop.stop() : MainLoop.start()
         }
         var b = "hidden";
@@ -18351,9 +18355,11 @@ physics.createZombie = function(p, b) {
     physics.addBodyToWorld(p, e);
     physics.lockTwoBodies(p,
         l, e);
+    /*
     e.onTouchEvent = function(a, b) {
         a.shapes[0].collisionGroup == p.collisionGroup.player && 0 == b && (a.position = [a.lastCheckPoint[0], a.lastCheckPoint[1]])
     };
+    */
     l.syncData = function() {
         var a = Math.round(physics.xAxis(this.position[0], 1)),
             b = Math.round(physics.yAxis(this.position[1], 1));
@@ -18954,14 +18960,12 @@ graphics.createPlayerSpawn = function(p, b, e) {
     return l
 };
 graphics.createPoison = function(p, b) {
-    /*
     var e = JSON.parse(b.poison),
         l = graphics.createRectangle(e.x, e.y, e.width, e.height, "0x0eac3c", e.rotation);
     l.dynamic = e.dynamic;
     graphics.addP(l);
     graphics.addIfDynamic(l);
     graphics.addToGraphicsLayer(p, l)
-    */
 };
 graphics.createZombie = function(p, b) {
     var e = JSON.parse(b.zombie),
@@ -19106,7 +19110,6 @@ function tokenizeAndAddToSpamWords(text) {
                 current = word.length;
                 wordIndex++;
             } else {
-                console.log("Added word to spamWords");
                 // if the word fits, then append to the current line (don't forget the space)
                 spamWords[wordIndex] += " " + word;
                 current = spamWords[wordIndex].length;
