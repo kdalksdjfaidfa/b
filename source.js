@@ -18355,11 +18355,9 @@ physics.createZombie = function(p, b) {
     physics.addBodyToWorld(p, e);
     physics.lockTwoBodies(p,
         l, e);
-    /*
     e.onTouchEvent = function(a, b) {
         a.shapes[0].collisionGroup == p.collisionGroup.player && 0 == b && (a.position = [a.lastCheckPoint[0], a.lastCheckPoint[1]])
     };
-    */
     l.syncData = function() {
         var a = Math.round(physics.xAxis(this.position[0], 1)),
             b = Math.round(physics.yAxis(this.position[1], 1));
@@ -18960,12 +18958,14 @@ graphics.createPlayerSpawn = function(p, b, e) {
     return l
 };
 graphics.createPoison = function(p, b) {
+    /*
     var e = JSON.parse(b.poison),
         l = graphics.createRectangle(e.x, e.y, e.width, e.height, "0x0eac3c", e.rotation);
     l.dynamic = e.dynamic;
     graphics.addP(l);
     graphics.addIfDynamic(l);
     graphics.addToGraphicsLayer(p, l)
+    */
 };
 graphics.createZombie = function(p, b) {
     var e = JSON.parse(b.zombie),
