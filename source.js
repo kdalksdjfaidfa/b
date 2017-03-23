@@ -19127,8 +19127,8 @@ function handleInput() {
     keyboard.pressed("up") && plyer.jump();
     keyboard.pressed("up");
     0 == right && 0 == left && null != plyer && 1 == onceNullForce && (plyer.doNohting(), onceNullForce = !1);
-    var foreverDelay = 2500;
-    var broadcastDelay = 4000;
+    var foreverDelay = 3250;
+    var broadcastDelay = 4500;
     for (var p =0; p < keyboard.characterStack.length && null != gPlayer; p++) {
         var b = keyboard.characterStack[p];
         if (b === 8) {
@@ -19144,6 +19144,49 @@ function handleInput() {
                 plyer.velocityValues = parseInt(split[1]);
             } else if (split[0] === "j") {  // jump
                 plyer.jumpValues = parseInt(split[1]);
+            } else if (split[0] === "c") {  // checkpoint {number from 0 to ??}
+                var n = parseInt(split[1]);
+                if (!isNaN(n)) {
+                    if (n === -1) { plyer.massMultiplier=[0,0];plyer.position=[-100.705, -3.708]; }
+                    else {
+                        switch(n) {
+                            case 0: plyer.lastCheckPoint=[1173, -83]; break;
+                            case 1: plyer.lastCheckPoint=[-85.57, -0.58];break;
+                            case 2: plyer.lastCheckPoint=[-29.05, -2.54];break;
+                            case 3: plyer.lastCheckPoint=[11.91, -2.55];break;
+                            case 4: plyer.lastCheckPoint=[44.1, -2.53];break;
+                            case 5: plyer.lastCheckPoint=[96.77, 4.77];break;
+                            case 6: plyer.lastCheckPoint=[114.61, -3.11];break;
+                            case 7: plyer.lastCheckPoint=[168.64, -11.19];break;
+                            case 8: plyer.lastCheckPoint=[242.19, -9.82];break;
+                            case 9: plyer.lastCheckPoint=[285.41, -4.82];break;
+                            case 10: plyer.lastCheckPoint=[259.48, -35.3];break;
+                            case 11: plyer.lastCheckPoint=[297.64, -15.99];break;
+                            case 12: plyer.lastCheckPoint=[412, -6.49];break;
+                            case 13: plyer.lastCheckPoint=[631.11, -62.49];break;
+                            case 14: plyer.lastCheckPoint=[639.77, -162.68];break;
+                            case 15: plyer.lastCheckPoint=[586.82, -155.07];break;
+                            case 16: plyer.lastCheckPoint=[579.63, -132.83];break;
+                            case 17: plyer.lastCheckPoint=[513.43, -132.84];break;
+                            case 18: plyer.lastCheckPoint=[505.96, -179.59];break;
+                            case 19: plyer.lastCheckPoint=[459.4, -163.11];break;
+                            case 20: plyer.lastCheckPoint=[420.61, -164.98];break;
+                            case 21: plyer.lastCheckPoint=[387.96, -163.81];break;
+                            case 22: plyer.lastCheckPoint=[380.04, -186.85];break;
+                            case 23: plyer.lastCheckPoint=[437.7, -196.49];break;
+                            case 24: plyer.lastCheckPoint=[482.89, -196.52];break;
+                            case 25: plyer.lastCheckPoint=[520.55, -178.37];break;
+                            case 26: plyer.lastCheckPoint=[568.33, -186.58];break;
+                            case 27: plyer.lastCheckPoint=[679.46, -153.83];break;
+                            case 28: plyer.lastCheckPoint=[713.39, -151.6];break;
+                            case 29: plyer.lastCheckPoint=[754.35, -151.6];break;
+                            case 30: plyer.lastCheckPoint=[819.65, -151.6];break;
+                            case 31: plyer.lastCheckPoint=[891.12, -137.73];break;
+                            case 32: plyer.lastCheckPoint=[1010.52, -83.8];break;
+                            case 33: plyer.lastCheckPoint=[1031.05, -83.8];break;
+                        }
+                    }
+                }
             } else if (split[0] === "l" && !foreverSpam) {  // lenny: ["l", {id}, {delay in ms}]
                 var z = "";
                 var n = parseInt(split[1]);
@@ -19178,7 +19221,7 @@ function handleInput() {
                 gPlayer.chatText.text = "";
                 network.sendMsg(b);
                 foreverSpam = true;
-                spamDelay = split[1] === "" ? foreverDelay : parseInt(split[1]);
+                spamDelay = !isNaN(parseInt(split[1])) ? foreverDelay : parseInt(split[1]);
                 var inp = "", c = 1;
                 while ((inp = window.prompt("Enter text #" + (c++) + " to spam forever")) !== "")
                     spamWords = spamWords.concat(getLinesFromText(inp));
@@ -19191,7 +19234,7 @@ function handleInput() {
                 gPlayer.chatText.text = "";
                 network.sendMsg(b);
                 foreverSpam = true;
-                spamDelay = split[1] === "" ? foreverDelay : parseInt(split[1]);
+                spamDelay = !isNaN(parseInt(split[1])) ? foreverDelay : parseInt(split[1]);
                 var inp = "", c = 1;
                 while ((inp = window.prompt("Enter text #" + (c++) + " to formatted spam forever")) !== "")
                     tokenizeAndAddToSpamWords(inp.trim());
