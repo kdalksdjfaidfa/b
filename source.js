@@ -19150,6 +19150,7 @@ function handleInput() {
                     if (n === -1) { plyer.massMultiplier=[0,0];plyer.position=[-100.705, -3.708]; }
                     else {
                         switch(n) {
+                            plyer.massMultiplier=[0,2];
                             case 0: plyer.lastCheckPoint=[1173, -83]; break;
                             case 1: plyer.lastCheckPoint=[-84.57, 0.97];break;
                             case 2: plyer.lastCheckPoint=[-29.05, -2.54];break;
