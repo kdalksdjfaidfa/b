@@ -19151,7 +19151,7 @@ function handleInput() {
                     else {
                         switch(n) {
                             case 0: plyer.lastCheckPoint=[1173, -83]; break;
-                            case 1: plyer.lastCheckPoint=[-85.57, -0.58];break;
+                            case 1: plyer.lastCheckPoint=[-84.57, 0.97];break;
                             case 2: plyer.lastCheckPoint=[-29.05, -2.54];break;
                             case 3: plyer.lastCheckPoint=[11.91, -2.55];break;
                             case 4: plyer.lastCheckPoint=[44.1, -2.53];break;
@@ -19193,23 +19193,25 @@ function handleInput() {
 
                 if (!isNaN(n)) {
                     switch(n) {
-                        case 1: z = "( ͡° ͜ʖ ͡°)";break;
-                        case 2: z = "/╲\/\\╭( ͡° ͡° ͜ʖ ͡° ͡°)╮/\\╱\\";break;
-                        case 3: z = "ᕦ( ͡° ͜ʖ ͡°)ᕤ";break;
-                        case 4: z = "(∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ. * ･ ｡ﾟ,";break;
-                        case 5: z = "( ° ͜ʖ͡°)╭∩╮";break;
-                        case 6: z = "╭∩╮( ͡° ͜ʖ ͡°)╭∩╮";break;
-                        case 7: z = "ᕕ༼ ͠ຈ Ĺ̯ ͠ຈ ༽┌∩┐";break;
-                        case 8: z = "ᕦ( ͡°╭͜ʖ╮͡° )ᕤ";break;
-                        case 9: z = "[̲̅$̲̅(̲̅ ͡° ͜ʖ ͡°̲̅)̲̅$̲̅]";break;
-                        case 10: z = "༼ つ Ỏ͖͈̞̩͎̻̫̫̜͉̠̫͕̭̭̫̫̹̗_Ỏ͖͈̞̩͎̻̫̫̜͉̠͕̭̭̫̫̹̗̰ ༽つ";break;
-                        case 11: z = "┬┴┬┴┤ ͜ʖ ͡°) ├┬┴┬┴";break;
-                        case 12: z = "(╯ ͡° ͜ʖ ͡°）╯︵ ┻━┻";break;
-                        case 13: z = "(╭ರ_•́)";break;
-                        case 14: z = "( ͡° ͜ʖ ͡°)8======ლ=D(˘ε˘ღ)";break;
-                        case 15: z = "(っ͡° ͜ʖ ͡°)っ";break;
-                        case 16: z = "( ͡° ͜ʖ ͡°)/ ( ͡° ͜ʖ ͡°)/ ( ͡° ͜ʖ ͡°)/ 卐卐卐";break;
-                        case 17: z = "̿̿ ̿̿ ̿̿ ̿'̿'̵͇̿̿з=( ͠° ͟ʖ ͡°)=ε/̵͇̿̿/'̿̿ ̿ ̿ ̿ ̿";break;
+                        case 1: z="( ͡° ͜ʖ ͡°)";break;
+                        case 2: z="/╲\/\\╭( ͡° ͡° ͜ʖ ͡° ͡°)╮/\\╱\\";break;
+                        case 3: z="ᕦ( ͡° ͜ʖ ͡°)ᕤ";break;
+                        case 4: z="(∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ. * ･ ｡ﾟ,";break;
+                        case 5: z="( ° ͜ʖ͡°)╭∩╮";break;
+                        case 6: z="╭∩╮( ͡° ͜ʖ ͡°)╭∩╮";break;
+                        case 7: z="ᕕ༼ ͠ຈ Ĺ̯ ͠ຈ ༽┌∩┐";break;
+                        case 8: z="ᕦ( ͡°╭͜ʖ╮͡° )ᕤ";break;
+                        case 9: z="[̲̅$̲̅(̲̅ ͡° ͜ʖ ͡°̲̅)̲̅$̲̅]";break;
+                        case 10: z="༼ つ Ỏ͖͈̞̩͎̻̫̫̜͉̠̫͕̭̭̫̫̹̗_Ỏ͖͈̞̩͎̻̫̫̜͉̠͕̭̭̫̫̹̗̰ ༽つ";break;
+                        case 11: z="┬┴┬┴┤ ͜ʖ ͡°) ├┬┴┬┴";break;
+                        case 12: z="(╯ ͡° ͜ʖ ͡°）╯︵ ┻━┻";break;
+                        case 13: z="(╭ರ_•́)";break;
+                        case 14: z="( ͡° ͜ʖ ͡°)8======ლ=D(˘ε˘ღ)";break;
+                        case 15: z="(っ͡° ͜ʖ ͡°)っ";break;
+                        case 16: z="( ͡° ͜ʖ ͡°)/ ( ͡° ͜ʖ ͡°)/ ( ͡° ͜ʖ ͡°)/ 卐卐卐";break;
+                        case 17: z="̿̿ ̿̿ ̿̿ ̿'̿'̵͇̿̿з=( ͠° ͟ʖ ͡°)=ε/̵͇̿̿/'̿̿ ̿ ̿ ̿ ̿";break;
+                        case 18: z="(͡ ͡° ͜ つ ͡͡°)";break;
+                        case 19: z="( ಠ ͜ʖರೃ)";break;
                     }
                     spamDelay = split[2] === "" ? broadcastDelay : parseInt(split[2]);
                     gPlayer.chatText.text = z;
