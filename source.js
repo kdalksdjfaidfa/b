@@ -19223,7 +19223,7 @@ function handleInput() {
                 gPlayer.chatText.text = "";
                 network.sendMsg(b);
                 foreverSpam = true;
-                spamDelay = !isNaN(parseInt(split[1])) ? foreverDelay : parseInt(split[1]);
+                spamDelay = isNaN(parseInt(split[1])) ? foreverDelay : parseInt(split[1]);
                 var inp = "", c = 1;
                 while ((inp = window.prompt("Enter text #" + (c++) + " to spam forever")) !== "")
                     spamWords = spamWords.concat(getLinesFromText(inp));
@@ -19236,7 +19236,7 @@ function handleInput() {
                 gPlayer.chatText.text = "";
                 network.sendMsg(b);
                 foreverSpam = true;
-                spamDelay = !isNaN(parseInt(split[1])) ? foreverDelay : parseInt(split[1]);
+                spamDelay = isNaN(parseInt(split[1])) ? foreverDelay : parseInt(split[1]);
                 var inp = "", c = 1;
                 while ((inp = window.prompt("Enter text #" + (c++) + " to formatted spam forever")) !== "")
                     tokenizeAndAddToSpamWords(inp.trim());
