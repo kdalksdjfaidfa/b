@@ -19254,6 +19254,7 @@ function handleInput() {
                         case 17: z="̿̿ ̿̿ ̿̿ ̿'̿'̵͇̿̿з=( ͠° ͟ʖ ͡°)=ε/̵͇̿̿/'̿̿ ̿ ̿ ̿ ̿";break;
                         case 18: z="(͡ ͡° ͜ つ ͡͡°)";break;
                         case 19: z="( ಠ ͜ʖರೃ)";break;
+                        case 20: z="ᕦ⁞ ✿ ᵒ̌ ᴥ ᵒ̌ ✿ ⁞ᕤ";break;
                     }
                     spamDelay = split[2] === "" ? broadcastDelay : parseInt(split[2]);
                     gPlayer.chatText.text = z;
@@ -19301,6 +19302,7 @@ function handleInput() {
             } else if (t === "a") {  // attach to player
                 clearInterval(attachJob);
                 attachIndex = null;
+                attachIsFound = false;
                 attachName = window.prompt("Enter the name of the player you want to attach to (must be on-screen)");
                 var d = window.prompt("Enter the delay in ms (otherwise will cancel)");
                 attachShouldGotoCheckpoint = window.confirm("Should you go to the last checkpoint if you lose them?")
