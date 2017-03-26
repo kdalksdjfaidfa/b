@@ -17775,7 +17775,8 @@ network.onLockCheckPoint = function(p) {
     plyer.velocity[1] = 0
 };
 network.kick = function(p) {
-    console.log(p);
+    console.log("'" + p + "' has been targetted.");
+
     /*
     null != this.socket && this.socket.emit("k", p)
     */
@@ -19155,7 +19156,7 @@ function attachToPlayer() {
                 attachIsFound = false;
                 console.log("Lost sight of '" + attachName + "'!");
                 plyer.damping = 0.9;
-                plyer.massMultiplier = [0, 2];
+                plyer.massMultiplier = [0,2];
                 // if it's a regular person, the only way they could've escaped is by returning to the last checkpoint
                 if (attachShouldGotoCheckpoint)  plyer.position = plyer.lastCheckPoint.slice();
             }
@@ -19317,13 +19318,18 @@ function handleInput() {
                 clearInterval(attachJob);
                 attachIndex = null;
                 attachIsFound = false;
-                attachName = window.prompt("Enter the name of the player you want to attach to (must be on-screen)");
+                var t = window.prompt("Enter the name of the player you want to attach to (must be on-screen)");
+                if (t !== "") {
+                    attachName = t;
+                }
                 var d = window.prompt("Enter the delay in ms (otherwise will cancel)");
                 attachShouldGotoCheckpoint = window.confirm("Should you go to the last checkpoint if you lose them?")
                 if (!isNaN(parseInt(d))) {
                     attachJob = setInterval(attachToPlayer, d);
                 } else {
                     console.log("Set a correct delay");
+                    plyer.damping = 0.9;
+                    plyer.massMultiplier = [0, 2];
                 }
             }
 
