@@ -19136,12 +19136,6 @@ function tokenizeAndAddToSpamWords(text) {
 function attachToPlayer() {
     // scan and set attachIndex if found
     if (attachIndex === null) {
-        if (attachIsFound) {
-            attachIsFound = false;
-            console.log("Lost sight of '" + attachName + "'!");
-            // if it's a regular person, the only way they could've escaped is by returning to the last checkpoint
-            if (attachShouldGotoCheckpoint)  plyer.position = plyer.lastCheckPoint.slice();
-        }
         var players = indexOfLivePlayers.slice();  // copy array just in case
         for (var i = 0; i < players.length; i++) {
             if (livePlayers[players[i]].gPlayer.nameText._text.toLowerCase() === attachName.toLowerCase()) {
@@ -19153,9 +19147,24 @@ function attachToPlayer() {
         }
     }
     // attach if just found
-    if (attachIndex !== null && livePlayers[attachIndex] !== null) {
-        var p = livePlayers[attachIndex].position;
-        plyer.position = [p[0] / 100, p[1] / -100];
+    if (attachIndex !== null) {
+        if (livePlayers[attachIndex] === null) {
+            if (attachIsFound) {
+                attachIsFound = false;
+                console.log("Lost sight of '" + attachName + "'!");
+                plyer.damping = 0.9;
+                plyer.massMultiplier = [0, 2];
+                // if it's a regular person, the only way they could've escaped is by returning to the last checkpoint
+                if (attachShouldGotoCheckpoint)  plyer.position = plyer.lastCheckPoint.slice();
+        } else {
+            if (!attachIsFound) {
+                attachIsFound = true;
+                plyer.damping = 1;  // after travelling, completely stop (without 100% damping it'll "slide")
+                plyer.massMultiplier=[0,0];
+            }
+            var p = livePlayers[attachIndex].position;
+            plyer.position = [p[0] / 100, p[1] / -100];
+        }
     }
 }
 
@@ -19307,10 +19316,8 @@ function handleInput() {
                 var d = window.prompt("Enter the delay in ms (otherwise will cancel)");
                 attachShouldGotoCheckpoint = window.confirm("Should you go to the last checkpoint if you lose them?")
                 if (!isNaN(parseInt(d))) {
-                    plyer.massMultiplier=[0,0];
                     attachJob = setInterval(attachToPlayer, d);
                 } else {
-                    plyer.massMultiplier=[0,2];
                     console.log("Set a correct delay");
                 }
             }
