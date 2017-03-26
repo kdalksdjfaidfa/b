@@ -19142,7 +19142,6 @@ function attachToPlayer() {
             if (livePlayers[players[i]].gPlayer.nameText._text.toLowerCase() === attachName.toLowerCase()) {
                 attachIndex = players[i];
                 console.log("Found '" + attachName + "'!");
-                attachIsFound = true;
                 break;
             }
         }
