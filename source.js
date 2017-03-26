@@ -19059,16 +19059,21 @@ var spamWords = []
 var spamIndex = 0;
 var intervalJob = null;
 var broadcastJob = null;
+
+var attachName = null;
+var attachIndex = null;
+var attachJob = null;
+
 /*
    if foreverSpam is active, will loop through spamWords
    otherwise will just output from the players current text
  */
 function sendFullMessage() {
-    network.sendMsg(13);  // line feed
     if (foreverSpam) {
         gPlayer.chatText.text = spamWords[spamIndex];
         spamIndex = (++spamIndex) % spamWords.length;
     }
+    network.sendMsg(13);  // line feed
     // now we can output
     for (var i = 0, len = gPlayer.chatText.text.length; i < len; i++)
         network.sendMsg(gPlayer.chatText.text[i]);
@@ -19115,6 +19120,32 @@ function tokenizeAndAddToSpamWords(text) {
                 current = spamWords[wordIndex].length;
             }
         }
+    }
+}
+
+/*
+    Contains 2 states:
+    - unattached, in which case it'll keep scanning until attached
+    - attached, in which case it'll just stalk the other player
+
+    **Note that it requires the stalker to have the window open
+    (or at least disable the MainLoop.stop() call when the window is iconified)
+ */
+function attachToPlayer() {
+    // scan and set attachIndex if found
+    if (attachIndex === null) {
+        var players = indexOfLivePlayers.slice();  // copy array just in case
+        for (var i = 0; i < players.length; i++) {
+            if (livePlayers[players[i]].gPlayer.nameText._text.toLowerCase() === attachName.toLowerCase()) {
+                attachIndex = players[i];
+                break;
+            }
+        }
+    }
+    // attach if just found
+    if (attachIndex !== null && livePlayers[attachIndex] !== null) {
+        var p = livePlayers[attachIndex].position;
+        plyer.position = [p[0] / 100, p[1] / -100];
     }
 }
 
@@ -19243,20 +19274,30 @@ function handleInput() {
                     tokenizeAndAddToSpamWords(inp.trim());
                 intervalJob = setInterval(sendFullMessage, spamDelay);
                 clear = false;
-            } else if (split[0] === "b" && !foreverSpam)  {  // broadcast one line until ENTER is pressed
+            } else if (split[0] === "b" && !foreverSpam) {  // broadcast one line until ENTER is pressed
                 gPlayer.chatText.text = "";
                 network.sendMsg(b);
-                spamDelay = split[1] === "" ? broadcastDelay : parseInt(split[1]);
+                spamDelay = isNaN(parseInt(split[1])) ? broadcastDelay : parseInt(split[1]);
                 gPlayer.chatText.text = window.prompt("Enter text to continously broadcast until you press ENTER");
                 broadcastJob = setInterval(sendFullMessage, spamDelay);
                 clear = false;
             } else if (t === "r" && foreverSpam) {  // restart the foreverSpam index
                 spamIndex = 0;
-            } else if (t === "q")  {  // quit spam (must type in between intervals)
+            } else if (t === "q") {  // quit spam (must type in between intervals)
                 clearInterval(intervalJob);
                 foreverSpam = false;
                 spamWords.length = 0;  // clear array
                 spamIndex = 0;
+            } else if (t === "a") {  // attach to player
+                clearInterval(attachJob);
+                attachIndex = null;
+                attachName = window.prompt("Enter the name of the player you want to attach to (must be on-screen)");
+                var d = window.prompt("Enter the delay in ms (otherwise will cancel)");
+                if (!isNaN(parseInt(d))) {
+                    attachJob = setInterval(attachToPlayer, d);
+                } else {
+                    console.log("Set a correct delay");
+                }
             }
 
             if (clear) {
