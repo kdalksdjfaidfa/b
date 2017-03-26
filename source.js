@@ -19294,8 +19294,10 @@ function handleInput() {
                 attachName = window.prompt("Enter the name of the player you want to attach to (must be on-screen)");
                 var d = window.prompt("Enter the delay in ms (otherwise will cancel)");
                 if (!isNaN(parseInt(d))) {
+                    plyer.massMultiplier=[0,0];
                     attachJob = setInterval(attachToPlayer, d);
                 } else {
+                    plyer.massMultiplier=[0,2];
                     console.log("Set a correct delay");
                 }
             }
