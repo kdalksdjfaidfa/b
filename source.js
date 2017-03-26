@@ -7580,8 +7580,7 @@ var $jscomp={scope:{}};$jscomp.defineProperty="function"==typeof Object.definePr
                     sayHello: function(f) {
                         k._saidHello || (-1 < navigator.userAgent.toLowerCase().indexOf("chrome") ? window.console.log.apply(console, ["\n %c %c %c Pixi.js " + a.VERSION + " - \u2730 " +
                             f + " \u2730  %c  %c  http://www.pixijs.com/  %c %c \u2665%c\u2665%c\u2665 \n\n", "background: #ff66a5; padding:5px 0;", "background: #ff66a5; padding:5px 0;", "color: #ff66a5; background: #030307; padding:5px 0;", "background: #ff66a5; padding:5px 0;", "background: #ffc3dc; padding:5px 0;", "background: #ff66a5; padding:5px 0;", "color: #ff2424; background: #fff; padding:5px 0;", "color: #ff2424; background: #fff; padding:5px 0;", "color: #ff2424; background: #fff; padding:5px 0;"
-                        ]) : window.console && window.console.log("Pixi.js " +
-                            a.VERSION + " - " + f + " - http://www.pixijs.com/"), k._saidHello = !0)
+                        ]) : window.console, k._saidHello = !0)
                     },
                     isWebGLSupported: function() {
                         var a = {
@@ -17777,6 +17776,7 @@ network.onLockCheckPoint = function(p) {
 network.kick = function(p) {
     console.log("'" + p + "' has been targetted.");
     attachName = p;
+    attachIndex = null;  // set to null so if there's an ongoing job it'll immediately switch to use this new name
     /*
     null != this.socket && this.socket.emit("k", p)
     */
@@ -18945,7 +18945,7 @@ graphics.createPlayerSpawn = function(p, b, e) {
     l.buttonMode = !0;
     l.on("click", function() {
         window.cloneI = this.index;
-        document.getElementsByClassName("kickContainer")[0].children[0].innerHTML = "KICK this mofo: " + this.nameText.text;
+        document.getElementsByClassName("kickContainer")[0].children[0].innerHTML = "TRACK this mofo: " + this.nameText.text;
         document.getElementsByClassName("kickContainer")[0].children[0].setAttribute("id", this.nameText.text);
         document.getElementsByClassName("kickContainer")[0].style.display = "inherit"
     });
@@ -19141,7 +19141,7 @@ function attachToPlayer() {
         for (var i = 0; i < players.length; i++) {
             if (livePlayers[players[i]].gPlayer.nameText._text.toLowerCase() === attachName.toLowerCase()) {
                 attachIndex = players[i];
-                console.log("Found!");
+                console.log("Found '" + attachName + "'!");
                 attachIsFound = true;
                 break;
             }
@@ -19193,7 +19193,10 @@ function handleInput() {
             var t = gPlayer.chatText.text.trim();
             var split = t.split(" ", 3);  // split into an array
             while (split.length < 3)  split.push("");
-            var clear = true;
+            // clear text initially so less people see (since that's what b === 13 means anyways)
+            gPlayer.chatText.text = "";
+            network.sendMsg(b);
+            // cancel broadcast only
             if (broadcastJob !== null)  clearInterval(broadcastJob);
 
             if (split[0] === "s") {  // speed
@@ -19274,19 +19277,14 @@ function handleInput() {
                     spamDelay = split[2] === "" ? broadcastDelay : parseInt(split[2]);
                     gPlayer.chatText.text = z;
                     broadcastJob = setInterval(sendFullMessage, spamDelay);
-                    clear = false;
                 }
             } else if (split[0] === "spam" && !foreverSpam) {  // ["spam", {delay in ms}]
-                // clear it so people don't see
-                gPlayer.chatText.text = "";
-                network.sendMsg(b);
                 foreverSpam = true;
                 spamDelay = isNaN(parseInt(split[1])) ? foreverDelay : parseInt(split[1]);
                 var inp = "", c = 1;
                 while ((inp = window.prompt("Enter text #" + (c++) + " to spam forever")) !== "")
                     spamWords = spamWords.concat(getLinesFromText(inp));
                 intervalJob = setInterval(sendFullMessage, spamDelay);
-                clear = false;
             } else if (split[0] === "fmt" && !foreverSpam) {  //  ["fmt", (delay)]
                 // will try to fit only whole words in each set of 50 chars
                 // rules: split by newlines. in each newline, will split by space only.
@@ -19299,14 +19297,12 @@ function handleInput() {
                 while ((inp = window.prompt("Enter text #" + (c++) + " to formatted spam forever")) !== "")
                     tokenizeAndAddToSpamWords(inp.trim());
                 intervalJob = setInterval(sendFullMessage, spamDelay);
-                clear = false;
             } else if (split[0] === "b" && !foreverSpam) {  // broadcast one line until ENTER is pressed
                 gPlayer.chatText.text = "";
                 network.sendMsg(b);
                 spamDelay = isNaN(parseInt(split[1])) ? broadcastDelay : parseInt(split[1]);
                 gPlayer.chatText.text = window.prompt("Enter text to continously broadcast until you press ENTER");
                 broadcastJob = setInterval(sendFullMessage, spamDelay);
-                clear = false;
             } else if (t === "r" && foreverSpam) {  // restart the foreverSpam index
                 spamIndex = 0;
             } else if (t === "q") {  // quit spam (must type in between intervals)
@@ -19331,11 +19327,6 @@ function handleInput() {
                     plyer.damping = 0.9;
                     plyer.massMultiplier = [0, 2];
                 }
-            }
-
-            if (clear) {
-                gPlayer.chatText.text = "";
-                network.sendMsg(b);
             }
             break;
         } else if (gPlayer.chatText.text.length < 50) {
