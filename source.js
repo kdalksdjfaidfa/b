@@ -19148,7 +19148,9 @@ function attachToPlayer() {
     }
     // attach if just found
     if (attachIndex !== null) {
+        // if could not find player
         if (livePlayers[attachIndex] === null) {
+            // and if we previously found them, do a one-time action (otherwise will just idle)
             if (attachIsFound) {
                 attachIsFound = false;
                 console.log("Lost sight of '" + attachName + "'!");
@@ -19156,12 +19158,15 @@ function attachToPlayer() {
                 plyer.massMultiplier = [0, 2];
                 // if it's a regular person, the only way they could've escaped is by returning to the last checkpoint
                 if (attachShouldGotoCheckpoint)  plyer.position = plyer.lastCheckPoint.slice();
+            }
         } else {
+            // if we re-found them
             if (!attachIsFound) {
                 attachIsFound = true;
                 plyer.damping = 1;  // after travelling, completely stop (without 100% damping it'll "slide")
                 plyer.massMultiplier=[0,0];
             }
+            // otherwise if we already found them, just follow
             var p = livePlayers[attachIndex].position;
             plyer.position = [p[0] / 100, p[1] / -100];
         }
