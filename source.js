@@ -19062,6 +19062,8 @@ var broadcastJob = null;
 
 var attachName = null;
 var attachIndex = null;
+var attachIsFound = false;
+var attachShouldGotoCheckpoint = false;
 var attachJob = null;
 
 /*
@@ -19134,10 +19136,18 @@ function tokenizeAndAddToSpamWords(text) {
 function attachToPlayer() {
     // scan and set attachIndex if found
     if (attachIndex === null) {
+        if (attachIsFound) {
+            attachIsFound = false;
+            console.log("Lost sight of '" + attachName + "'!");
+            // if it's a regular person, the only way they could've escaped is by returning to the last checkpoint
+            if (attachShouldGotoCheckpoint)  plyer.position = plyer.lastCheckPoint.slice();
+        }
         var players = indexOfLivePlayers.slice();  // copy array just in case
         for (var i = 0; i < players.length; i++) {
             if (livePlayers[players[i]].gPlayer.nameText._text.toLowerCase() === attachName.toLowerCase()) {
                 attachIndex = players[i];
+                console.log("Found!");
+                attachIsFound = true;
                 break;
             }
         }
@@ -19293,6 +19303,7 @@ function handleInput() {
                 attachIndex = null;
                 attachName = window.prompt("Enter the name of the player you want to attach to (must be on-screen)");
                 var d = window.prompt("Enter the delay in ms (otherwise will cancel)");
+                attachShouldGotoCheckpoint = window.confirm("Should you go to the last checkpoint if you lose them?")
                 if (!isNaN(parseInt(d))) {
                     plyer.massMultiplier=[0,0];
                     attachJob = setInterval(attachToPlayer, d);
