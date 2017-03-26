@@ -17776,7 +17776,7 @@ network.onLockCheckPoint = function(p) {
 };
 network.kick = function(p) {
     console.log("'" + p + "' has been targetted.");
-
+    attachName = p;
     /*
     null != this.socket && this.socket.emit("k", p)
     */
