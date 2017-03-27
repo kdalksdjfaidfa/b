@@ -17876,7 +17876,7 @@ network.onPlayersData = function(p) {
             graphicsWorld.graphicsLayer.removeChild(p.gPlayer);
             graphicsWorld.textLayer.removeChild(p.gPlayer.chatText);
             graphicsWorld.textLayer.removeChild(p.gPlayer.nameText);
-            livePlayers[oldPlayersIndex[b]] = null);
+            livePlayers[oldPlayersIndex[b]] = null;
         }
     }
     indexOfLivePlayers = oldPlayersIndex = newPlayersIndex;
