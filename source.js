@@ -17867,7 +17867,7 @@ network.onPlayersData = function(p) {
     }
     for (b = 0; b < oldPlayersIndex.length; b++) {
         if ("number" == typeof oldPlayersIndex[b] && newPlayersIndex.indexOf(oldPlayersIndex[b]) == -1) {
-            p = livePlayers[oldPlayersIndex[b]]);
+            p = livePlayers[oldPlayersIndex[b]];
             if (p.gPlayer === null) {
                 console.log("This piece of crap is null (index " + oldPlayersIndex[b] + ")");
                 console.log(p);
