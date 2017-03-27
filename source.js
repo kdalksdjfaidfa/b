@@ -17866,16 +17866,18 @@ network.onPlayersData = function(p) {
         "" != k && (d.gPlayer.nameText.text = k)
     }
     for (b = 0; b < oldPlayersIndex.length; b++) {
-        "number" == typeof oldPlayersIndex[b] && -1 == newPlayersIndex.indexOf(oldPlayersIndex[b]) && (p = livePlayers[oldPlayersIndex[b]];
-        if (p.gPlayer === null) {
-            console.log("This piece of crap is null (index " + oldPlayersIndex[b] + ")");
-            console.log(p);
-            continue;
+        if ("number" == typeof oldPlayersIndex[b] && newPlayersIndex.indexOf(oldPlayersIndex[b]) == -1) {
+            p = livePlayers[oldPlayersIndex[b]]);
+            if (p.gPlayer === null) {
+                console.log("This piece of crap is null (index " + oldPlayersIndex[b] + ")");
+                console.log(p);
+                continue;
+            }
+            graphicsWorld.graphicsLayer.removeChild(p.gPlayer);
+            graphicsWorld.textLayer.removeChild(p.gPlayer.chatText);
+            graphicsWorld.textLayer.removeChild(p.gPlayer.nameText);
+            livePlayers[oldPlayersIndex[b]] = null);
         }
-        graphicsWorld.graphicsLayer.removeChild(p.gPlayer);
-        graphicsWorld.textLayer.removeChild(p.gPlayer.chatText);
-        graphicsWorld.textLayer.removeChild(p.gPlayer.nameText);
-        livePlayers[oldPlayersIndex[b]] = null);
     }
     indexOfLivePlayers = oldPlayersIndex = newPlayersIndex;
     newPlayersIndex = []
