@@ -17821,6 +17821,9 @@ network.onPlayersData = function(p) {
             k = p[b + 3],
             f = p[b + 4],
             d;
+        if (typeof f !== "number") {
+            f = 0;
+        }
         newPlayersIndex[newPlayersIndex.length] = e;
         indexOfLivePlayers[newPlayersIndex.length] = e;
         if ("undefined" == typeof livePlayers[e] || null == livePlayers[e]) {
