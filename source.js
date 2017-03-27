@@ -17804,6 +17804,15 @@ window.livePlayers = [];
 window.indexOfLivePlayers = [];
 var oldPlayersIndex = [],
     newPlayersIndex = [];
+
+function isInt(value) {
+  if (isNaN(value)) {
+    return false;
+  }
+  var x = parseFloat(value);
+  return (x | 0) === x;
+}
+
 network.onResetToLastCheckPoint = function(p) {
     p = p.split(",");
     var b = physics.xAxis(parseInt(p[0]), 0);
@@ -17821,8 +17830,8 @@ network.onPlayersData = function(p) {
             k = p[b + 3],
             f = p[b + 4],
             d;
-        if (typeof f !== "number") {
-            f = 0;
+        if (!isInt(f)) {
+            f = "0";
         }
         newPlayersIndex[newPlayersIndex.length] = e;
         indexOfLivePlayers[newPlayersIndex.length] = e;
