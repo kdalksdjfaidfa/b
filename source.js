@@ -19300,6 +19300,7 @@ function handleInput() {
                     }
                     spamDelay = split[2] === "" ? broadcastDelay : parseInt(split[2]);
                     gPlayer.chatText.text = z;
+                    sendFullMessage();
                     broadcastJob = setInterval(sendFullMessage, spamDelay);
                 }
             } else if (split[0] === "spam" && !foreverSpam) {  // ["spam", {delay in ms}]
@@ -19326,6 +19327,7 @@ function handleInput() {
                 network.sendMsg(b);
                 spamDelay = isNaN(parseInt(split[1])) ? broadcastDelay : parseInt(split[1]);
                 gPlayer.chatText.text = window.prompt("Enter text to continously broadcast until you press ENTER");
+                sendFullMessage();
                 broadcastJob = setInterval(sendFullMessage, spamDelay);
             } else if (t === "r" && foreverSpam) {  // restart the foreverSpam index
                 spamIndex = 0;
@@ -19345,9 +19347,10 @@ function handleInput() {
                 var d = window.prompt("Enter the delay in ms (otherwise will cancel)");
                 attachShouldGotoCheckpoint = window.confirm("Should you go to the last checkpoint if you lose them?")
                 if (!isNaN(parseInt(d))) {
+                    attachToPlayer();
                     attachJob = setInterval(attachToPlayer, d);
                 } else {
-                    console.log("Set a correct delay");
+                    console.log("Set a correct delay. Attach cancelled.");
                     plyer.damping = 0.9;
                     plyer.massMultiplier = [0, 2];
                 }
