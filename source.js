@@ -17831,7 +17831,8 @@ network.onPlayersData = function(p) {
             f = p[b + 4],
             d;
         if (!isInt(f)) {
-            f = "0";
+            console.log("Found someone with an id set to: " + f);
+            f = "../../../../thumbnails/hideAndSeek";
         }
         newPlayersIndex[newPlayersIndex.length] = e;
         indexOfLivePlayers[newPlayersIndex.length] = e;
@@ -17878,8 +17879,6 @@ network.onPlayersData = function(p) {
         if ("number" == typeof oldPlayersIndex[b] && newPlayersIndex.indexOf(oldPlayersIndex[b]) == -1) {
             p = livePlayers[oldPlayersIndex[b]];
             if (p === null) {
-                console.log("This piece of crap is null (index " + oldPlayersIndex[b] + ")");
-                console.log(p);
                 continue;
             }
             graphicsWorld.graphicsLayer.removeChild(p.gPlayer);
@@ -18382,7 +18381,7 @@ physics.createZombie = function(p, b) {
     physics.lockTwoBodies(p,
         l, e);
     e.onTouchEvent = function(a, b) {
-        a.shapes[0].collisionGroup == p.collisionGroup.player && 0 == b && (a.position = [a.lastCheckPoint[0], a.lastCheckPoint[1]])
+        // a.shapes[0].collisionGroup == p.collisionGroup.player && 0 == b && (a.position = [a.lastCheckPoint[0], a.lastCheckPoint[1]])
     };
     l.syncData = function() {
         var a = Math.round(physics.xAxis(this.position[0], 1)),
@@ -18402,7 +18401,7 @@ physics.createZombie = function(p, b) {
     physics.addWhomToCollide(p, e, "redZone");
     physics.addBodyToWorld(p, e);
     e.onTouchEvent = function(a, b) {
-        0 == b ? (this.palyerRef = a, this.playersCount++, g.c("in red zone")) : (g.c("out red zone"), this.playersCount--)
+        // 0 == b ? (this.palyerRef = a, this.playersCount++, g.c("in red zone")) : (g.c("out red zone"), this.playersCount--)
     };
     e.manualUpdate = function(a) {
         a = 0;
@@ -18415,6 +18414,7 @@ physics.createZombie = function(p, b) {
         l, e)
 };
 physics.createLeaverAndBridge = function(p, b) {
+    // p = physicsWorld, b = json object (see `p`, the big json obj near EOF)
     var e = JSON.parse(b.leaver),
         l = JSON.parse("[" + b.linkedObjects + "]"),
         a = JSON.parse("[" + b.linkedLeaverObjects + "]"),
