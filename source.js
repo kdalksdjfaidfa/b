@@ -19448,6 +19448,7 @@ function start() {
     initializeCanvas();
     setUpClientLoop();
     g.addWindowNotActiveTrigger();
+    console.log("start() called")
     var p = [{
             playerSpawn: '{"x":-8457,"y":-58,"width":30,"height":100,"dynamic":true}',
             type: "playerSpawn"
@@ -20234,7 +20235,7 @@ function start() {
             linkedLeaverObjects: "",
             type: "leaverAndBridge"
         }, {
-            leaver: '{"x":75974,"y":14952,"width":40,"height":52}',
+            leaver: '{"x":76974,"y":14952,"width":40,"height":52}',
             linkedObjects: '{"x":76599,"y":15199,"width":200,"height":30,"dynamic":true,"handleX":77239,"handleY":15199,"movingSpeed":8,"fillColor":"0x000000"}',
             linkedLeaverObjects: "",
             type: "leaverAndBridge"
