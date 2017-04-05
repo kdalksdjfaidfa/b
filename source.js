@@ -7578,9 +7578,7 @@ var $jscomp={scope:{}};$jscomp.defineProperty="function"==typeof Object.definePr
                         return (f = a.RETINA_PREFIX.exec(f)) ? parseFloat(f[1]) : 1
                     },
                     sayHello: function(f) {
-                        k._saidHello || (-1 < navigator.userAgent.toLowerCase().indexOf("chrome") ? window.console.log.apply(console, ["\n %c %c %c Pixi.js " + a.VERSION + " - \u2730 " +
-                            f + " \u2730  %c  %c  http://www.pixijs.com/  %c %c \u2665%c\u2665%c\u2665 \n\n", "background: #ff66a5; padding:5px 0;", "background: #ff66a5; padding:5px 0;", "color: #ff66a5; background: #030307; padding:5px 0;", "background: #ff66a5; padding:5px 0;", "background: #ffc3dc; padding:5px 0;", "background: #ff66a5; padding:5px 0;", "color: #ff2424; background: #fff; padding:5px 0;", "color: #ff2424; background: #fff; padding:5px 0;", "color: #ff2424; background: #fff; padding:5px 0;"
-                        ]) : window.console, k._saidHello = !0)
+                        k._saidHello || (-1 < navigator.userAgent.toLowerCase().indexOf("chrome") ? 1 : window.console, k._saidHello = !0)
                     },
                     isWebGLSupported: function() {
                         var a = {
@@ -17830,10 +17828,8 @@ network.onPlayersData = function(p) {
             k = p[b + 3],
             f = p[b + 4],
             d;
-        if (!isInt(f)) {
-            console.log("Found someone with an id set to: " + f);
+        if (!isInt(f))
             f = "../../../../thumbnails/hideAndSeek";
-        }
         newPlayersIndex[newPlayersIndex.length] = e;
         indexOfLivePlayers[newPlayersIndex.length] = e;
         if ("undefined" == typeof livePlayers[e] || null == livePlayers[e]) {
