@@ -20234,11 +20234,11 @@ function start() {
             linkedLeaverObjects: "",
             type: "leaverAndBridge"
         }, {
-            leaver: '{"x":76974,"y":14952,"width":40,"height":52}',
+            leaver: '{"x":75974,"y":14952,"width":40,"height":52}',
             linkedObjects: '{"x":76599,"y":15199,"width":200,"height":30,"dynamic":true,"handleX":77239,"handleY":15199,"movingSpeed":8,"fillColor":"0x000000"}',
-            linkedLeaverObjects: '{"x":113249,"y":5054,"width":100,"height":100}',
+            linkedLeaverObjects: "",
             type: "leaverAndBridge"
-        },{
+        }, {
             leaver: '{"x":77725,"y":14952,"width":40,"height":52}',
             linkedObjects: '{"x":77339,"y":15199,"width":200,"height":30,"dynamic":true,"handleX":77980,"handleY":15199,"movingSpeed":8,"fillColor":"0x000000"}',
             linkedLeaverObjects: "",
