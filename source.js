@@ -18271,8 +18271,8 @@ physics.createPlayerSpawn = function(p, b) {
     physics.addBodyToWorld(p, k);
     k.velocityValue = 300;
     k.jumpValue = 800;
-    this.velocityValues = 900;
-    this.jumpValues = 1000;
+    k.velocityValues = 900;
+    k.jumpValues = 1000;
     g.isServer() && (k.gravityScale = 0);
     physics.patch(k);
     k.jump = function() {
