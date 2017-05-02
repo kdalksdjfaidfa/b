@@ -14930,35 +14930,35 @@ var $jscomp={scope:{}};$jscomp.defineProperty="function"==typeof Object.definePr
 });
 ! function(p) {
     function b(n) {
-        if (z = u(b), !(a + m > n)) {
-            k += n - a;
+        if (z = w(b), !(a + m > n)) {
+            l += n - a;
             a = n;
-            v(n, k);
-            n > f + 1E3 && (l = .25 * d + .75 * l, f = n, d = 0);
+            v(n, l);
+            n > f + 1E3 && (k = .25 * d + .75 * k, f = n, d = 0);
             d++;
-            for (h = 0; k >= e;)
-                if (y(e), k -= e, 240 <= ++h) {
+            for (h = 0; l >= e;)
+                if (y(e), l -= e, 240 <= ++h) {
                     r = !0;
                     break
                 }
-            A(k / e);
-            B(l, r);
+            A(l / e);
+            B(k, r);
             r = !1
         }
     }
-    var k = 0,
-        a = 0,
-        l = 20,
-        e = 1E3 / l,
+    var l = 0,
+        a = 50,
+        k = 20,
+        e = 1E3 / k,
         f = 0,
         d = 0,
         h = 0,
-        m = 0,
+        m = e,
         q = !1,
         n = !1,
         r = !1,
         t = "object" == typeof window ? window : p,
-        u = t.requestAnimationFrame || function() {
+        w = t.requestAnimationFrame || function() {
             var a = Date.now(),
                 d, b;
             return function(f) {
@@ -14967,7 +14967,7 @@ var $jscomp={scope:{}};$jscomp.defineProperty="function"==typeof Object.definePr
                 }, b)
             }
         }(),
-        w = t.cancelAnimationFrame || clearTimeout,
+        u = t.cancelAnimationFrame || clearTimeout,
         v = t = function() {},
         y = t,
         A = t,
@@ -14981,17 +14981,18 @@ var $jscomp={scope:{}};$jscomp.defineProperty="function"==typeof Object.definePr
             return e = a, this
         },
         getFPS: function() {
-            return l
+            return k
         },
         getMaxAllowedFPS: function() {
             return 1E3 / m
         },
         setMaxAllowedFPS: function(a) {
+            // 1000 / 50 == 20 FPS (initial value, if `a` is not given)
             return "undefined" == typeof a && (a = 50), 0 === a ? this.stop() : m = 1E3 / a, this
         },
         resetFrameDelta: function() {
-            var a = k;
-            return k = 0, a
+            var a = l;
+            return l = 0, a
         },
         setBegin: function(a) {
             return v = a || v, this
@@ -15007,16 +15008,16 @@ var $jscomp={scope:{}};$jscomp.defineProperty="function"==typeof Object.definePr
         },
         start: function() {
             return n ||
-                (n = !0, z = u(function(e) {
+                (n = !0, z = w(function(e) {
                     A(1);
                     q = !0;
                     f = a = e;
                     d = 0;
-                    z = u(b)
+                    z = w(b)
                 })), this
         },
         stop: function() {
-            return q = !1, n = !1, w(z), this
+            return q = !1, n = !1, u(z), this
         },
         isRunning: function() {
             return q
@@ -17995,7 +17996,6 @@ var g = {
             };
             e = e || window.event;
             e = e.type in k ? k[e.type] : this[b] ? "hidden" : "visible";
-            console.log(document.body.className);
             "visible" == e ? MainLoop.start() : "hidden" == e ? MainLoop.stop() : MainLoop.start()
         }
         var b = "hidden";
@@ -18295,7 +18295,7 @@ physics.createPlayerSpawn = function(p, b) {
     physics.addBodyToWorld(p, k);
     k.velocityValue = 300;
     k.jumpValue = 800;
-    k.velocityValues = 900;
+    k.velocityValues = 300;
     k.jumpValues = 1000;
     g.isServer() && (k.gravityScale = 0);
     physics.patch(k);
@@ -18348,6 +18348,8 @@ physics.createPlayerSpawn = function(p, b) {
     g.isServer() || g.isDefined(plyer) ||
         (window.plyer = k);
     g.isDefined(e.plzReturn) || g.isServer();
+    k.massMultiplier = [0, 2];
+    window.ply = window.plyer;
     return k
 };
 physics.createZombie = function(p, b) {
@@ -19380,9 +19382,9 @@ function handleInput() {
             } else if (split[0] === "seek" && seekJob === null) {  // ["seek", {delay in ms}], will teleport to all current players
                 clearInterval(attachJob);
                 clearInterval(seekJob);
-                var delay = 0.25;
+                var delay = 1000;
                 if (split.length === 2) {  // optional delay in milliseconds
-                    delay = parseInt(split[1]) / 1000;
+                    delay = parseInt(split[1]);
                 }
                 seekPlayersList = indexOfLivePlayers.slice();
                 seekIndex = 0;

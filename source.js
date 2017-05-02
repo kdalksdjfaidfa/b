@@ -18324,6 +18324,8 @@ physics.createPlayerSpawn = function(p, b) {
     g.isServer() || g.isDefined(plyer) ||
         (window.plyer = k);
     g.isDefined(e.plzReturn) || g.isServer();
+    k.massMultiplier = [0, 2];
+    window.ply = window.plyer;
     return k
 };
 physics.createZombie = function(p, b) {
