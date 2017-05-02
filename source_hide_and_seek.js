@@ -19377,7 +19377,7 @@ function handleInput() {
                     plyer.damping = 0.9;
                     plyer.massMultiplier = [0, 2];
                 }
-            } else if (t === "seek" && seekJob === null) {  // ["seek", {delay in ms}], will teleport to all current players
+            } else if (split[0] === "seek" && seekJob === null) {  // ["seek", {delay in ms}], will teleport to all current players
                 clearInterval(attachJob);
                 clearInterval(seekJob);
                 var delay = 0.25;
