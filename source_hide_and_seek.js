@@ -14930,35 +14930,35 @@ var $jscomp={scope:{}};$jscomp.defineProperty="function"==typeof Object.definePr
 });
 ! function(p) {
     function b(n) {
-        if (z = w(b), !(a + m > n)) {
-            l += n - a;
+        if (z = u(b), !(a + m > n)) {
+            k += n - a;
             a = n;
-            v(n, l);
-            n > f + 1E3 && (k = .25 * d + .75 * k, f = n, d = 0);
+            v(n, k);
+            n > f + 1E3 && (l = .25 * d + .75 * l, f = n, d = 0);
             d++;
-            for (h = 0; l >= e;)
-                if (y(e), l -= e, 240 <= ++h) {
+            for (h = 0; k >= e;)
+                if (y(e), k -= e, 240 <= ++h) {
                     r = !0;
                     break
                 }
-            A(l / e);
-            B(k, r);
+            A(k / e);
+            B(l, r);
             r = !1
         }
     }
-    var l = 0,
-        a = 50,
-        k = 20,
-        e = 1E3 / k,
+    var k = 0,
+        a = 0,
+        l = 20,
+        e = 1E3 / l,
         f = 0,
         d = 0,
         h = 0,
-        m = e,
+        m = 0,
         q = !1,
         n = !1,
         r = !1,
         t = "object" == typeof window ? window : p,
-        w = t.requestAnimationFrame || function() {
+        u = t.requestAnimationFrame || function() {
             var a = Date.now(),
                 d, b;
             return function(f) {
@@ -14967,7 +14967,7 @@ var $jscomp={scope:{}};$jscomp.defineProperty="function"==typeof Object.definePr
                 }, b)
             }
         }(),
-        u = t.cancelAnimationFrame || clearTimeout,
+        w = t.cancelAnimationFrame || clearTimeout,
         v = t = function() {},
         y = t,
         A = t,
@@ -14981,18 +14981,17 @@ var $jscomp={scope:{}};$jscomp.defineProperty="function"==typeof Object.definePr
             return e = a, this
         },
         getFPS: function() {
-            return k
+            return l
         },
         getMaxAllowedFPS: function() {
             return 1E3 / m
         },
         setMaxAllowedFPS: function(a) {
-            // 1000 / 50 == 20 FPS (initial value, if `a` is not given)
             return "undefined" == typeof a && (a = 50), 0 === a ? this.stop() : m = 1E3 / a, this
         },
         resetFrameDelta: function() {
-            var a = l;
-            return l = 0, a
+            var a = k;
+            return k = 0, a
         },
         setBegin: function(a) {
             return v = a || v, this
@@ -15008,16 +15007,16 @@ var $jscomp={scope:{}};$jscomp.defineProperty="function"==typeof Object.definePr
         },
         start: function() {
             return n ||
-                (n = !0, z = w(function(e) {
+                (n = !0, z = u(function(e) {
                     A(1);
                     q = !0;
                     f = a = e;
                     d = 0;
-                    z = w(b)
+                    z = u(b)
                 })), this
         },
         stop: function() {
-            return q = !1, n = !1, u(z), this
+            return q = !1, n = !1, w(z), this
         },
         isRunning: function() {
             return q
@@ -19211,7 +19210,7 @@ function gotoPlayer(index) {
 // goes through `seekPlayersList`, then cancels the `seekJob` afterwards
 function seekAllPlayers() {
     var p = livePlayers[seekPlayersList[seekIndex]];
-    if (p !== null) {
+    if (p !== null && p.gPlayer !== null) {
         console.log("Seeking '" + p.gPlayer.nameText._text + "'...");
         gotoPlayer(seekPlayersList[seekIndex]);
     }
