@@ -18,11 +18,6 @@
     }
 
     function r(t) {
-        1 != ft.isMuted && (ft.sounds[t] == i && (ft.sounds[t] = {
-            clips: [],
-            index: 0,
-            sr: "../client/sound/" + t + ".mp3"
-        }), ft.sounds[t].clips[ft.sounds[t].index] == i && ft.sounds[t].clips.push(new Audio(ft.sounds[t].sr)), ft.sounds[t].clips[ft.sounds[t].index].play(), ft.sounds[t].index += 1, ft.sounds[t].index >= 5 && (ft.sounds[t].index = 0))
     }
 
     function c(t, e) {
@@ -48,7 +43,7 @@
     function u(t) {
         if (0 == t.type) {
             0 == t.port ? t.port = "A" : 1 == t.port ? t.port = "B" : 2 == t.port && (t.port = "C");
-            var e = "<div class='window-log-message window-log-message-danger'><img src='../client/img/icon-danger.png' class='icon-small'> You're being hacked by <div id='hackedid-form' class='button' data-text='" + t.id + "'></div> on Port " + t.port + "</div>",
+            var e = "<div class='window-log-message window-log-message-danger'><img src='../client/img/icon-danger.png' class='icon-small'> ur being hacked by <div id='hackedid-form' class='button' data-text='" + t.id + "'></div> on Port " + t.port + "</div>",
                 i = n(e),
                 a = i.find("#hackedid-form").text(t.name);
             a.click(function() {
@@ -172,7 +167,8 @@
 
     function k() {
         n("#shop-basic-miner").click(function(t) {
-            tt.coins.value >= n(this).children().eq(1).children().eq(3).text() && (y(t.pageX, t.pageY, "+ " + n(this).children().eq(1).children().eq(0).text(), "#2d533f"), r("click"), x(), it.push({
+            console.log(it);
+            it.push({
                 task: 103,
                 id: 0
             }), _("#shop-basic-miner-inv"))
@@ -206,18 +202,9 @@
     }
 
     function v() {
-        var t = o("vid_adin_s0urce");
-        t !== i && (t = parseInt(t), (t == i || isNaN(t)) && (a("vid_adin_s0urce", 0, 180), t = 0), Z = t + 1, a("vid_adin_s0urce", Z, 180)), null !== V && 2 == Z ? V.startPreRoll() : E()
     }
 
     function x() {
-        n("#window-miner-coins-rate").css("background-color", "rgba(191, 207, 210, 0.4)"), setTimeout(function() {
-            n("#window-miner-coins-rate").css("background-color", "rgba(191, 207, 210, 0)")
-        }, 100), setTimeout(function() {
-            n("#window-miner-coins-rate").css("background-color", "rgba(191, 207, 210, 0.4)")
-        }, 200), setTimeout(function() {
-            n("#window-miner-coins-rate").css("background-color", "rgba(191, 207, 210, 0)")
-        }, 300)
     }
 
     function y(t, e, i, a) {
@@ -440,7 +427,7 @@
     function z(t) {
         if (0 != tt.gotFirstPack) {
             var e = 0;
-            n("#window-my-coinamount").text(tt.coins.value.toFixed(3)), n("#window-my-gainamount").text(tt.coins.rate.toFixed(4)), e = tt.firewall[0].charges / tt.firewall[0].max_charges * 100, n("#window-firewall-part1-amount").height(e + "%"), n(".firewall-part1-charges").text(tt.firewall[0].charges), n(".firewall-part1-charges-max").text(tt.firewall[0].max_charges), e = tt.firewall[1].charges / tt.firewall[1].max_charges * 100, n("#window-firewall-part2-amount").height(e + "%"), n(".firewall-part2-charges").text(tt.firewall[1].charges), n(".firewall-part2-charges-max").text(tt.firewall[1].max_charges), e = tt.firewall[2].charges / tt.firewall[2].max_charges * 100, n("#window-firewall-part3-amount").height(e + "%"), n(".firewall-part3-charges").text(tt.firewall[2].charges), n(".firewall-part3-charges-max").text(tt.firewall[2].max_charges);
+            n("#window-my-coinamount").text(tt.coins.value.toFixed(4)), n("#window-my-gainamount").text(tt.coins.rate.toFixed(4)), e = tt.firewall[0].charges / tt.firewall[0].max_charges * 100, n("#window-firewall-part1-amount").height(e + "%"), n(".firewall-part1-charges").text(tt.firewall[0].charges), n(".firewall-part1-charges-max").text(tt.firewall[0].max_charges), e = tt.firewall[1].charges / tt.firewall[1].max_charges * 100, n("#window-firewall-part2-amount").height(e + "%"), n(".firewall-part2-charges").text(tt.firewall[1].charges), n(".firewall-part2-charges-max").text(tt.firewall[1].max_charges), e = tt.firewall[2].charges / tt.firewall[2].max_charges * 100, n("#window-firewall-part3-amount").height(e + "%"), n(".firewall-part3-charges").text(tt.firewall[2].charges), n(".firewall-part3-charges-max").text(tt.firewall[2].max_charges);
             for (var i = 0; i < tt.unlocked.market.length; i++) n(tt.unlocked.market[i].name + "-amount").text(tt.market[i].amount), n(tt.unlocked.market[i].name + "-value").text(tt.market[i].f_cost.toFixed(4));
             if (1 == tt.vis_firewall) {
                 n("#shop-charges").text(tt.firewall[$.selection.firewall].charges), n("#shop-max-charges").text(tt.firewall[$.selection.firewall].max_charges), n("#shop-strength").text(tt.firewall[$.selection.firewall].strength), n("#shop-regen").text(tt.firewall[$.selection.firewall].regeneration), n(tt.unlocked.firewall[0].name + "-value").text((tt.coins.rate * nt.chargeCostMult).toFixed(4)), n(tt.unlocked.firewall[1].name + "-value").text((tt.coins.rate * nt.chargeCostMult * 10).toFixed(4));
