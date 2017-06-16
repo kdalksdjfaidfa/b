@@ -105,7 +105,7 @@
     }
 
     function m() {
-        var t = tt.coins.value;
+        var t = 99999999999999999999999999999;
         t >= tt.coins.rate * nt.attackCostMult ? 0 == tt.unlocked.firewall[0].state ? l(0, 0) : n(tt.unlocked.firewall[0].name).css("opacity", "1.0") : n(tt.unlocked.firewall[0].name).css("opacity", "0.4"), t >= tt.coins.rate * nt.attackCostMult * 10 ? 0 == tt.unlocked.firewall[1].state ? l(1, 0) : n(tt.unlocked.firewall[1].name).css("opacity", "1.0") : n(tt.unlocked.firewall[1].name).css("opacity", "0.4");
         for (var e = 2; e < tt.unlocked.firewall.length; e++) t >= tt.firewall[0].upgrades[e].f_cost ? 0 == tt.unlocked.firewall[e].state ? l(e, 0) : n(tt.unlocked.firewall[e].name).css("opacity", "1.0") : n(tt.unlocked.firewall[e].name).css("opacity", "0.4");
         for (var e = 0; e < tt.unlocked.market.length; e++) t >= tt.market[e].f_cost ? 0 == tt.unlocked.market[e].state ? l(e, 1) : n(tt.unlocked.market[e].name).css("opacity", "1.0") : n(tt.unlocked.market[e].name).css("opacity", "0.4")
@@ -197,10 +197,10 @@
                 id: 4
             }), _("#shop-bot-net-inv"))
         }), n("#shop-quantum-server").click(function(t) {
-            tt.coins.value >= n(this).children().eq(1).children().eq(3).text() && (y(t.pageX, t.pageY, "+ " + n(this).children().eq(1).children().eq(0).text(), "#2d533f"), x(), r("click"), it.push({
+            it.push({
                 task: 103,
                 id: 5
-            }), _("#shop-quantum-server-inv"))
+            })
         })
     }
 
@@ -439,7 +439,7 @@
     function z(t) {
         if (0 != tt.gotFirstPack) {
             var e = 0;
-            n("#window-my-coinamount").text(tt.coins.value.toFixed(4)), n("#window-my-gainamount").text(tt.coins.rate.toFixed(4)), e = tt.firewall[0].charges / tt.firewall[0].max_charges * 100, n("#window-firewall-part1-amount").height(e + "%"), n(".firewall-part1-charges").text(tt.firewall[0].charges), n(".firewall-part1-charges-max").text(tt.firewall[0].max_charges), e = tt.firewall[1].charges / tt.firewall[1].max_charges * 100, n("#window-firewall-part2-amount").height(e + "%"), n(".firewall-part2-charges").text(tt.firewall[1].charges), n(".firewall-part2-charges-max").text(tt.firewall[1].max_charges), e = tt.firewall[2].charges / tt.firewall[2].max_charges * 100, n("#window-firewall-part3-amount").height(e + "%"), n(".firewall-part3-charges").text(tt.firewall[2].charges), n(".firewall-part3-charges-max").text(tt.firewall[2].max_charges);
+            n("#window-my-coinamount").text(tt.coins.value.toFixed(3)), n("#window-my-gainamount").text(tt.coins.rate.toFixed(4)), e = tt.firewall[0].charges / tt.firewall[0].max_charges * 100, n("#window-firewall-part1-amount").height(e + "%"), n(".firewall-part1-charges").text(tt.firewall[0].charges), n(".firewall-part1-charges-max").text(tt.firewall[0].max_charges), e = tt.firewall[1].charges / tt.firewall[1].max_charges * 100, n("#window-firewall-part2-amount").height(e + "%"), n(".firewall-part2-charges").text(tt.firewall[1].charges), n(".firewall-part2-charges-max").text(tt.firewall[1].max_charges), e = tt.firewall[2].charges / tt.firewall[2].max_charges * 100, n("#window-firewall-part3-amount").height(e + "%"), n(".firewall-part3-charges").text(tt.firewall[2].charges), n(".firewall-part3-charges-max").text(tt.firewall[2].max_charges);
             for (var i = 0; i < tt.unlocked.market.length; i++) n(tt.unlocked.market[i].name + "-amount").text(tt.market[i].amount), n(tt.unlocked.market[i].name + "-value").text(tt.market[i].f_cost.toFixed(4));
             if (1 == tt.vis_firewall) {
                 n("#shop-charges").text(tt.firewall[$.selection.firewall].charges), n("#shop-max-charges").text(tt.firewall[$.selection.firewall].max_charges), n("#shop-strength").text(tt.firewall[$.selection.firewall].strength), n("#shop-regen").text(tt.firewall[$.selection.firewall].regeneration), n(tt.unlocked.firewall[0].name + "-value").text((tt.coins.rate * nt.chargeCostMult).toFixed(4)), n(tt.unlocked.firewall[1].name + "-value").text((tt.coins.rate * nt.chargeCostMult * 10).toFixed(4));
@@ -466,21 +466,6 @@
 
     function U() {
         it.length > 0 && (Q.emit("playerRequest", it), it = [])
-    }
-
-    function J() {
-        "undefined" != typeof aipPlayer ? V = new aipPlayer({
-            AD_WIDTH: 960,
-            AD_HEIGHT: 540,
-            AD_FULLSCREEN: !0,
-            AD_CENTERPLAYER: !1,
-            LOADING_TEXT: "loading advertisement",
-            PREROLL_ELEM: e.getElementById("preroll"),
-            AIP_COMPLETE: function() {
-                Z >= 2 && a("vid_adin_s0urce", 0, 180), E()
-            },
-            AIP_REMOVE: function() {}
-        }) : E()
     }
 
     function K(t, n) {
@@ -511,45 +496,45 @@
             unlocked: {
                 firewall: [{
                     name: "#shop-firewall-charge1",
-                    state: !1
+                    state: !!1
                 }, {
                     name: "#shop-firewall-charge10",
-                    state: !1
+                    state: !!1
                 }, {
                     name: "#shop-firewall-max_charge10",
-                    state: !1
+                    state: !!1
                 }, {
                     name: "#shop-firewall-difficulty",
-                    state: !1
+                    state: !!1
                 }, {
                     name: "#shop-firewall-regen",
-                    state: !1
+                    state: !!1
                 }],
                 market: [{
                     name: "#shop-basic-miner",
-                    state: !1
+                    state: !!1
                 }, {
                     name: "#shop-advanced-miner",
-                    state: !1
+                    state: !!1
                 }, {
                     name: "#shop-mining-drill",
-                    state: !1
+                    state: !!1
                 }, {
                     name: "#shop-data-center",
-                    state: !1
+                    state: !!1
                 }, {
                     name: "#shop-bot-net",
-                    state: !1
+                    state: !!1
                 }, {
                     name: "#shop-quantum-server",
-                    state: !1
+                    state: !!1
                 }]
             }
         },
         et = ["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master"],
         nt = {
-            attackCostMult: -1,
-            chargeCostMult: -1
+            attackCostMult: -100,
+            chargeCostMult: -100
         },
         it = [],
         at = [],
