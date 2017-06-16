@@ -197,6 +197,7 @@
                 id: 4
             }), _("#shop-bot-net-inv"))
         }), n("#shop-quantum-server").click(function(t) {
+            console.log(it);
             it.push({
                 task: 103,
                 id: 5
